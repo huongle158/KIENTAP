@@ -3,12 +3,18 @@ import './App.css';
 import React, { Fragment, useEffect, useState } from 'react';
 import Home from './pages/Home'
 import Shop from './pages/Shop'
+import { CartProvider } from './contexts/Cart'
+import Dashboard from './components/admin/Dashboard/Dashboard';
+import { UserProvider } from './contexts/User';
 
 
 
 function App() {
   return (
     <>
+      <UserProvider>
+        <CartProvider>
+      
       <Routes>
         {/* Mặc định ứng dụng mở lên sẽ vô trang Home */}
         <Route path='/' element={<Home />} />
@@ -19,7 +25,9 @@ function App() {
 
         
 
-      </Routes>
+          </Routes>
+        </CartProvider>
+      </UserProvider>
     </>
   );
 }
