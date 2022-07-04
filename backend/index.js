@@ -22,6 +22,7 @@ var Product = require("./models/product.model");
 var adminRoutes = require('./routes/admin');
 var userRoutes = require('./routes/user');
 var collectionRoutes = require('./routes/collection')
+var orderRoutes = require('./routes/order');
 
 app.get('/', (req, res) => {
     res.send('OK')
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/admin', adminRoutes);
 app.use('/user', userRoutes)
 app.use('/collection', collectionRoutes)
+app.use("/order", orderRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
