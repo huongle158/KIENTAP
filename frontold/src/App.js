@@ -43,7 +43,7 @@ function App(props) {
   return (
     <UserProvider>
     <CartProvider>
-    <ChatProvider>
+    {/* <ChatProvider> */}
       {/* { loading === true &&
         <LoadingPage
           loading={loading} 
@@ -74,7 +74,7 @@ function App(props) {
           <OpenChatBtn/>
         </Router>
       {/* } */}
-    </ChatProvider>
+    {/* </ChatProvider> */}
     </CartProvider>
     </UserProvider>
   );
