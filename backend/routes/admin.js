@@ -12,9 +12,11 @@ router.get("/list",  controller.list);
 router.get("/list/:id",  controller.listId);
 router.get("/:id",  middleware.verifyToken, controller.info); 
 router.post("/login", controller.postLogin);
+router.post("/logout", middleware.verifyToken, controller.logOut);
 router.post("/register", upload.array("adminAvt", 12), controller.register);
 router.post("/update/:id", upload.array("adminAvt", 12), controller.updateAdmin);
-router.post("/delete/:id", controller.deleteAdmin);
+router.post("/delete/:id", middleware.verifyToken, controller.deleteAdmin);
+router.post("/refresh",  controller.requestRefreshToken)
 
 module.exports = router;
 

@@ -9,8 +9,7 @@ var userSchema = new mongoose.Schema({
 	userAddress: String,
 	userAvt: String,
 	userTinh: String,
-	userHuyen: String,
-	userRole: String,
+	userHuyen: String
 	},
     {
     	versionKey: false
