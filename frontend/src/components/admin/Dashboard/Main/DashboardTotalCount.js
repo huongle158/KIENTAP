@@ -17,11 +17,11 @@ function DashboardTotalCount(props) {
                     <div  className="total-count-count count-item">{totalCount.count}</div>
                     <div className='count-line '></div>
                    {totalCount.isDecrease&& <div className="count-status">
-                         <p><FontAwesomeIcon icon={faArrowUp} className="count-up"/> %</p> 
+                         <p className="count-item flex"><span><FontAwesomeIcon icon={faArrowUp} className="count-up"/></span> %</p> 
                          <p className="count-item">since last month</p>
                     </div>}
                     {!totalCount.isDecrease && <div className="count-status">
-                         <p><FontAwesomeIcon icon={faArrowDown} className="count-up"/> %</p> 
+                    <p className="count-item flex"><span><FontAwesomeIcon icon={faArrowDown} /></span> %  </p> 
                          <p className="count-item">since last month</p>
                     </div>}
 

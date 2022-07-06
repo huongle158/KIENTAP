@@ -110,6 +110,9 @@
   justify-content: center;
   align-items: center;
 }
+.space-evenly{
+  justify-content:space-evenly !important;
+}
 
 .flex-col {
   display: flex !important;
