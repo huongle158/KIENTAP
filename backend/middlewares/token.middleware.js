@@ -1,13 +1,24 @@
 const jwt = require('jsonwebtoken');
 
-module.exports.verifyToken = function(req, res, next) {
-  const token = req.headers.authorization
-  
-  try {
-    const verified = jwt.verify(token, 'hahaha');
-    req.admin = verified;
-    res.send(req.admin)
-  } catch(err) {
-    res.status(400);
+
+module.exports.verifyToken = function (req, res, next) {
+  const token = req.headers.token;
+  if(token){
+    const accessToken = token.split(' ')[1];
+
+    try {
+      jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) =>{
+        if(err){
+          return res.status(401).json("Token is invalid");
+        }
+        req.user = user;
+        next();
+        
+      });
+      
+    } catch (err) {
+      res.status(401).json("You're not authenticated");
+    }
   }
+  
 }

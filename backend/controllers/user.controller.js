@@ -22,10 +22,21 @@ module.exports.info = function(req, res) {
 		res.json(user);
 	})
 }
+const generateAccessToken = function (user) {
+	return token = jwt.sign({ user },
+		process.env.SECRET_KEY,
+		{ expiresIn: "60s" });
+}
+
+const generateRefreshToken = function (user) {
+	return token = jwt.sign({ user },
+		process.env.REFRESH_KEY,
+		{ expiresIn: "365d" });
+}
 
 module.exports.postLogin = async function(req, res) {
-	var email = req.body.loginEmail;
-	var password = req.body.loginPassword;
+	var email = req.body.email;
+	var password = req.body.password;
  
 	var user = await User.findOne({ userEmail: email });
 
@@ -33,22 +44,61 @@ module.exports.postLogin = async function(req, res) {
 		return res.status(400).send('Email is not found!');
 	}
 
-	const validPassword = await bcrypt.compare(password, user.userPassword);
+	const validPassword = await bcrypt.compare(password, user.password);
 	if (!validPassword) {
 		return res.status(400).send('Wrong password!');
 	} 
 
-	const token = jwt.sign({user}, 'hahaha');
-	res.status(200).json({token: token, user: user});
+	if(user && validPassword){
+		const accessToken = generateAccessToken(user);
+		const refreshToken = generateRefreshToken(user);
+		res.cookie("refreshToken", refreshToken,{
+			httpOnly: true,
+			secure: false,
+			path:"/",
+			sameSite: "strict"
+		})
+		const {userPassword, ...others} = user._doc
+		return res.status(200).json({ ...others, accessToken });
+
+	}
+
 };
 
+module.exports.requestRefreshToken = async function (req, res) {
+	const refreshToken = req.cookies.refreshToken;
+	if (!refreshToken)
+		return res.status(401).json("You're not authenticated");
+	if (!refreshTokens.includes(refreshToken)) {
+		return res.status(403).json("Invalid refresh token!");
+	}
+	jwt.verify(refreshToken, process.env.REFRESH_KEY, (err, admin) => {
+		if (err) {
+			console.log(err);
+		}
+		refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+		const newAccessToken = generateAccessToken(admin);
+		const newRefreshToken = generateRefreshToken(admin);
+		refreshTokens.push(newRefreshToken);
+		res.cookie("refreshToken", newRefreshToken, {
+			httpOnly: true,
+			secure: false,
+			path: "/",
+			sameSite: "strict"
+		})
+		res.status(200).json({ accessToken: newAccessToken })
+	})
+}
+
+
+
 module.exports.register = async function(req, res) {
-	var password = req.body.userPassword;
-	var user = User.findOne({ userEmail: req.body.userEmail });
+	var password = req.body.password;
+	var user = User.findOne({ userEmail: req.body.email }).exec();
 
 	if (user) {
-		console.log(user)
-		// return res.status(400).send('Email already exists!');
+		return res.status(400).send('Email already exists!');
 	}
 	
 	try {
@@ -65,9 +115,8 @@ module.exports.register = async function(req, res) {
 		userHuyen: "",
 		userAddress: "",
 		userPhone: "",
-		userEmail: req.body.userEmail,
+		userEmail: req.body.email,
 		userPassword: req.body.password,
-		userRole: req.body.userRole,
 		userCreateDay: new Date,
 	}
 
@@ -75,6 +124,12 @@ module.exports.register = async function(req, res) {
 	res.status(200).send('Register success');
 }
 
+module.exports.logOut = async function (req, res) {
+	res.clearCookie("refreshToken");
+	refreshTokens = refreshTokens.filter(token => token !== req.cookies.refreshToken);
+	res.status(200).json("Logout successfully!")
+
+}
 
 module.exports.updateUser = async function(req, res) {
 	var id = req.params.id;
@@ -111,7 +166,7 @@ module.exports.updateUser = async function(req, res) {
 			{_id: id}, {
 				userRole: req.body.userRole,
 				userName: req.body.userName,
-				userEmail: req.body.userEmail
+				userEmail: req.body.email
 			},
 			function (error) {
 			}
@@ -133,10 +188,10 @@ module.exports.updateUser = async function(req, res) {
 		)
 	}
 
-	var user = await User.findOne({ _id: id });
+	// var user = await User.findOne({ _id: id });
 
-	const token = jwt.sign({user}, 'hahaha');
-	res.status(200).json({token: token, user: user});
+	// const token = jwt.sign({user}, process.env.SECRET_KEY);
+	// res.status(200).json({token: token, user: user});
 }
 
 module.exports.deleteUser = async function(req, res) {
