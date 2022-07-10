@@ -10,12 +10,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 
  function DashboardTopFive(props) {
-
     const data = props.data
-
-
-
-
     return(
         <div className="top-five">
             <div  className={`headerbox ${props.color}`}>
@@ -33,11 +28,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
                                     )
                                 })
                             }
-                   
                 </div>
-                
+
                 {data.slice(0,5).map((item,index)=>{
-                    
                    return(  
                    <div key={index}>
                     <div className="count-line"></div>
@@ -53,20 +46,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
                </div>
                </div>)})} 
             </div>
-            
-         
-            
-        
     </div>
-
-               
     )
-
-
-
-
-
  }
-
-
  export default DashboardTopFive
