@@ -73,7 +73,6 @@ export default function DashboardMenu(props) {
                             onClick={()=> {
                                 localStorage.removeItem('user-id')
                                 localStorage.removeItem('token');
-                                sessionStorage.removeItem('chat-id')
                                 window.location.reload(false);
                             }}
                         >

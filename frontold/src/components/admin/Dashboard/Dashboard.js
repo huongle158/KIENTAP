@@ -70,7 +70,10 @@ function Dashboard(props) {
 
     useEffect(()=>{
         if (localStorage.getItem('token')) {
-            Axios.get(`http://pe.heromc.net:4000/users/${localStorage.getItem('user-id')}`, { 
+            // Axios.get(`http://pe.heromc.net:4000/users/${localStorage.getItem('user-id')}`, { 
+            //     headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
+            // })
+            Axios.get(`http://localhost:5000/admin/${localStorage.getItem('user-id')}`, { 
                 headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
             })
             .then(res => {

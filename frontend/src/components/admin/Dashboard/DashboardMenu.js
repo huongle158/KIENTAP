@@ -1,7 +1,7 @@
 import {React,useState } from 'react';
 import classNames  from 'classnames'
 import { Link } from 'react-router-dom';
-import '../../../Styles/DashBoard.css'
+import '../../../Styles/Dashboard.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faAngleDown,faAngleUp,faIdCard,faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 

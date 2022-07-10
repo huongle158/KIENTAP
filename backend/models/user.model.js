@@ -2,18 +2,20 @@ const mongoose = require('mongoose');
 
 var userSchema = new mongoose.Schema({
 	userCreateDay: Date,
-	userName: String,
-	userEmail: String,
-	userPassword: String,
-	userPhone: String,
-	userAddress: String,
-	userAvt: String,
-	userTinh: String,
-	userHuyen: String
-	},
-    {
-    	versionKey: false
-    }
+	username: String,
+	email: String,
+	password: String,
+	phone: String,
+	address: String,
+	avt: String,
+	tinh: String,
+	huyen: String,
+	admin: { type: Boolean, default: false }
+},
+
+	{
+		versionKey: false
+	}
 )
 
 var User = mongoose.model('User', userSchema, 'user');
