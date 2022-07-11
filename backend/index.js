@@ -29,6 +29,7 @@ var userRoutes = require('./routes/user');
 var collectionRoutes = require('./routes/collection')
 var orderRoutes = require('./routes/order');
 var productRoutes = require('./routes/product');
+var emailRoutes = require('./routes/email')
 
 
 app.get('/', (req, res) => {
@@ -38,6 +39,7 @@ app.use('/user', userRoutes)
 app.use('/collection', collectionRoutes)
 app.use("/order", orderRoutes);
 app.use("/product", productRoutes);
+app.use("/email", emailRoutes)
 
 
 app.listen(PORT, () => {
