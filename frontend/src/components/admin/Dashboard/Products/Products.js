@@ -5,6 +5,8 @@ import ProductCreate from './ProductCreate'
 import axios from 'axios'
 import '../../../../Styles/DashboardProducts/DashboardProduct.css' 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faTshirt } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
@@ -13,19 +15,13 @@ function Products(props){
     const [constProducts, setConstProducts] = useState([])
     const [value, setValue] = useState("")
     useEffect(()=> {
-        axios.get(`http://localhost:8000/products`)
+        axios.get(``)
             .then(res => {
                 setProduct(res.data)
                 setConstProducts(res.data)
             } 
-        )})
-    const handleSearch = async(e)=>{
-        e.preventDefault();
-        return await axios.get(`?q=${value}`)
-        .then((res) => setProduct(res.data))
-        .catch((err) => console.log(err));
-
-    }
+        )},[])
+   
 
     const table = [
         "Name",
@@ -48,10 +44,10 @@ function Products(props){
  
 return (
     <div className='container-product'>
-        <div className="container-products">
-                <div className={`total-count-icon`}
+        <div className="container-products ">
+                <div className={`total-count-icon pink`}
                  > 
-                    icon
+                   <FontAwesomeIcon icon={faTshirt} className="icon"/>
                 </div>
                 <div className="container-product-title"> 
                    Products

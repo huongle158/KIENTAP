@@ -30,7 +30,7 @@
     left: 260px;
     min-height: 100vh;
     background-color: #f0f1f3;
-    transition: width .5s;
+    transition: .5s;
     overflow-x: hidden;
 }
 

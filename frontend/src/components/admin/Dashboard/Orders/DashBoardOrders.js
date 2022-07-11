@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react'
-
+import {  faUser } from '@fortawesome/free-solid-svg-icons'
 import OrderTable from './OrderTable'
 import OrderCreate from './OrderCreate'
 import OrderEdit from './OrderEdit'
@@ -32,9 +32,9 @@ function DoashBoardOrders(){
     return(
         <div className='container-product'>
             <div className="container-products">
-                    <div className={`total-count-icon`}
+                    <div className={`total-count-icon orange`}
                     > 
-                        icon
+                        <FontAwesomeIcon icon={faUser} className="icon"/>
                     </div>
                     <div className="container-product-title"> 
                     Products
@@ -48,6 +48,7 @@ function DoashBoardOrders(){
                         <OrderTable
                             table={table}
                             toggleEdit={toggleEdit}
+                            
                         />
                          {openCreate &&  <OrderCreate 
                             toggleActive={toggleActive}
