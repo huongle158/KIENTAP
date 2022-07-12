@@ -5,6 +5,7 @@ var upload = multer({ dest: './public/images' })
 
 var controller = require("../controllers/collection.controller");
 
+
 router.get("/", controller.index);
 router.get("/:id", controller.info)
 router.post("/delete/:id", controller.deleteCollection);
