@@ -79,7 +79,7 @@ function Dashboard(props) {
             .then(res => {
                 setUserInfo(res.data.user)
                 const userInfo = res.data.user; 
-                if (userInfo.userRole === 'admin') {
+                if (userInfo.admin === true) {
                     socket.emit('join', {
                         sessionId: 'admin',
                         isAdmin: true

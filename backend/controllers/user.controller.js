@@ -25,7 +25,7 @@ module.exports.info = function (req, res) {
 }
 
 const generateAccessToken = function (user) {
-	return token = jwt.sign({ user },
+	return token = jwt.sign({ id: user.id, admin: user.admin },
 		process.env.SECRET_KEY,
 		{ expiresIn: "30s" });
 }
