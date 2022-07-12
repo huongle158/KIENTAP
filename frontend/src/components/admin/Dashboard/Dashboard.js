@@ -4,6 +4,8 @@ import {Outlet} from 'react-router-dom'
 import '../../../Styles/Dashboard.css'
 import DashboardMenu from './DashboardMenu';
 import '../../../App.css'
+import '../../../Styles/Dashboard.css'
+
 import { faEnvelope, faFileInvoice, faHome,  faShoppingBag, faUser,faTshirt,faBars,faSearch,faBell } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 

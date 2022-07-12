@@ -1,31 +1,33 @@
 var User = require("../models/user.model");
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); 	
+const jwt = require('jsonwebtoken');
+var refreshTokens = [];
 
-module.exports.index = async function(req, res) {
-	var user = await User.find();
-	res.json(user);
+module.exports.index = async function (req, res) {
+	var users = await User.find();
+	res.json(users);
 };
-module.exports.list = async function(req, res) {
-	var user = await User.find();
-	res.json(user); 
+module.exports.list = async function (req, res) {
+	var users = await User.find();
+	res.json(users);
 };
-module.exports.listId = function(req, res) {
+module.exports.listId = function (req, res) {
 	var id = req.params.id;
-	User.findById({ _id: id }).then(function(user) {
-		res.json(user);
+	User.findById({ _id: id }).then(function (users) {
+		res.json(users);
 	})
 }
-module.exports.info = function(req, res) {
+module.exports.info = function (req, res) {
 	var id = req.params.id;
-	User.findById({ _id: id }).then(function(user) {
-		res.json(user);
+	User.findById({ _id: id }).then(function (users) {
+		res.json(users);
 	})
 }
+
 const generateAccessToken = function (user) {
-	return token = jwt.sign({ user },
+	return token = jwt.sign({ id: user.id, admin: user.admin },
 		process.env.SECRET_KEY,
-		{ expiresIn: "60s" });
+		{ expiresIn: "30s" });
 }
 
 const generateRefreshToken = function (user) {
@@ -34,33 +36,43 @@ const generateRefreshToken = function (user) {
 		{ expiresIn: "365d" });
 }
 
-module.exports.postLogin = async function(req, res) {
-	var email = req.body.email;
-	var password = req.body.password;
- 
-	var user = await User.findOne({ userEmail: email });
+/*
+{
+	"email": "abb@uel.vn",
+	"password": "123"
+}
+*/
+module.exports.postLogin = async function (req, res) {
+	try {
+		var email = req.body.email;
+		var password = req.body.password;
+		var user = await User.findOne({ userEmail: email });
+		if (!user) {
+			return res.status(400).send('Email is not found!');
+		}
 
-	if (!user) {
-		return res.status(400).send('Email is not found!');
+		const validPassword = await bcrypt.compare(password, user.password);
+
+		if (!validPassword) {
+			return res.status(400).send('Wrong password!');
+		}
+
+		if (user && validPassword) {
+			const accessToken = generateAccessToken(user);
+			const refreshToken = generateRefreshToken(user);
+			refreshTokens.push(refreshToken);
+			res.cookie("refreshToken", refreshToken, {
+				httpOnly: true,
+				secure: false,
+				path: "/",
+				sameSite: "strict"
+			})
+			const { userPassword, ...others } = user._doc
+			return res.status(200).json({ ...others, accessToken });
+		}
 	}
-
-	const validPassword = await bcrypt.compare(password, user.password);
-	if (!validPassword) {
-		return res.status(400).send('Wrong password!');
-	} 
-
-	if(user && validPassword){
-		const accessToken = generateAccessToken(user);
-		const refreshToken = generateRefreshToken(user);
-		res.cookie("refreshToken", refreshToken,{
-			httpOnly: true,
-			secure: false,
-			path:"/",
-			sameSite: "strict"
-		})
-		const {userPassword, ...others} = user._doc
-		return res.status(200).json({ ...others, accessToken });
-
+	catch (err) {
+		console.log(err)
 	}
 
 };
@@ -72,14 +84,14 @@ module.exports.requestRefreshToken = async function (req, res) {
 	if (!refreshTokens.includes(refreshToken)) {
 		return res.status(403).json("Invalid refresh token!");
 	}
-	jwt.verify(refreshToken, process.env.REFRESH_KEY, (err, admin) => {
+	jwt.verify(refreshToken, process.env.REFRESH_KEY, (err, user) => {
 		if (err) {
 			console.log(err);
 		}
 		refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
-		const newAccessToken = generateAccessToken(admin);
-		const newRefreshToken = generateRefreshToken(admin);
+		const newAccessToken = generateAccessToken(user);
+		const newRefreshToken = generateRefreshToken(user);
 		refreshTokens.push(newRefreshToken);
 		res.cookie("refreshToken", newRefreshToken, {
 			httpOnly: true,
@@ -91,32 +103,37 @@ module.exports.requestRefreshToken = async function (req, res) {
 	})
 }
 
-
-
-module.exports.register = async function(req, res) {
+/*
+{
+	"email": "abb@uel.vn",
+	"password": "123",
+	"userName": "Ý"
+}
+*/
+module.exports.register = async function (req, res) {
 	var password = req.body.password;
-	var user = User.findOne({ userEmail: req.body.email }).exec();
+	var user = await User.findOne({ email: req.body.email }).exec();
 
 	if (user) {
 		return res.status(400).send('Email already exists!');
 	}
-	
+
 	try {
 		const salt = await bcrypt.genSalt();
 		req.body.password = await bcrypt.hash(password, salt);
-	} catch(err) {
+	} catch (err) {
 		console.log(err);
 	}
 
 	const data = {
-		userAvt: "http://pe.heromc.net:4000/images/16f9bbf512b66a228f7978e34d8fb163",
-		userName: req.body.userName,
-		userTinh: "",
-		userHuyen: "",
-		userAddress: "",
-		userPhone: "",
-		userEmail: req.body.email,
-		userPassword: req.body.password,
+		avt: "http://localhost:5000/images/16f9bbf512b66a228f7978e34d8fb163.png",
+		username: req.body.userName,
+		usertinh: "",
+		userhuyen: "",
+		address: "",
+		phone: "",
+		email: req.body.email,
+		password: req.body.password,
 		userCreateDay: new Date,
 	}
 
@@ -131,70 +148,48 @@ module.exports.logOut = async function (req, res) {
 
 }
 
-module.exports.updateUser = async function(req, res) {
+module.exports.updateUser = async function (req, res) {
 	var id = req.params.id;
- 
-	if (req.files.length > 0) {
-		const imgArr = [];
-		req.files.map((item)=>{
-			imgArr.push(`http://pe.heromc.net:4000/${item.path.split("/").slice(1).join("/")}`)
-		})
-		const img = {
-			userAvt: imgArr[0]
-		}
-		User.findByIdAndUpdate(
-			{_id: id}, img,
-			function (error) {
-			}
-		)
-	}
 
-	if(req.body.userPassword !== "") {
+	if (req.body.password !== "") {
 		try {
 			const salt = await bcrypt.genSalt();
-			req.body.password = await bcrypt.hash(req.body.userPassword, salt);
-		} catch {}
-		await User.findByIdAndUpdate(
-			{_id: id}, {userPassword: req.body.password},
-			function (error) {
-			}
-		)
-	}
-
-	if (req.body.fromUser) {
-		await User.findByIdAndUpdate(
-			{_id: id}, {
-				userRole: req.body.userRole,
-				userName: req.body.userName,
-				userEmail: req.body.email
-			},
-			function (error) {
-			}
-		)
-	} else {
-		const data = {
-			userName: req.body.userName,
-			userEmail: req.body.userEmail,
-			userTinh: req.body.userTinh,
-			userHuyen: req.body.userHuyen,
-			userPhone: req.body.userPhone,
-			userAddress: req.body.userAddress
+			req.body.password = await bcrypt.hash(req.body.password, salt);
+		} catch (error) {
+			return res.status(500).json(error)
 		}
 		await User.findByIdAndUpdate(
-			{_id: id}, data,
+			{ _id: id }, { password: req.body.password },
 			function (error) {
-                console.log(error)
+				return res.status(400).json(error)
 			}
 		)
 	}
 
-	// var user = await User.findOne({ _id: id });
-
-	// const token = jwt.sign({user}, process.env.SECRET_KEY);
-	// res.status(200).json({token: token, user: user});
+	await User.findByIdAndUpdate(
+		{ _id: id }, {
+		admin: req.body.admin,
+		username: req.body.username,
+		email: req.body.email,
+		tinh: req.body.tinh,
+		huyen: req.body.huyen,
+		phone: req.body.phone,
+		address: req.body.address
+	},
+		function (error) {
+			return res.status(400).json(error)
+		}
+	)
 }
 
-module.exports.deleteUser = async function(req, res) {
-	await User.findByIdAndRemove({_id: req.body.id})
+
+// var admin = await Admin.findOne({ _id: id });
+
+// const token = jwt.sign({ admin }, process.env.SECRET_KEY, { expiresIn: "60s" });
+// res.status(200).json({ token: token, admin: admin });
+
+
+module.exports.deleteUser = async function (req, res) {
+	await User.findByIdAndRemove({ _id: req.params.id })
 	res.status(200).send("ok");
 }
