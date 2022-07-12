@@ -9,7 +9,9 @@ import Dashboard from './components/admin/Dashboard/Dashboard';
 import Main from './components/admin/Dashboard/Main/Main';
 import DashBoardOrders from './components/admin/Dashboard/Orders/DashBoardOrders';
 import Products from './components/admin/Dashboard/Products/Products';
-
+import DashboardCollection from './components/admin/Dashboard/Collection/DashboardCollection';
+import DashboardSubscriber from './components/admin/Dashboard/Subscriber/DashboardSubscriber';
+import DashboardUser from './components/admin/Dashboard/User/DashboardUser';
 function App() {
   return (
     <>
@@ -27,6 +29,10 @@ function App() {
               <Route path="Products"  element={<Products />}/>
               <Route path="Dashboard"  element={<Main />}/>
               <Route path="Orders"  element={<DashBoardOrders />}/>
+              <Route path="Collections"  element={<DashboardCollection />}/>
+              <Route path="Subscriber" element={<DashboardSubscriber />} />
+              <Route path="Users" element={<DashboardUser />} />
+              
         </Route>
 
           </Routes>
