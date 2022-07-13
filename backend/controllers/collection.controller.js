@@ -18,32 +18,32 @@ module.exports.deleteCollection = async function(req, res) {
 module.exports.postCollection = async function(req, res) {
     const imgArr = [];
     req.files.map((item) => {
-        imgArr.push(`http://pe.heromc.net:4000/${item.path.split("/").slice(1).join("/")}`)
+        imgArr.push(`http://localhost:5000/${item.originalname}`)
     })
     const data = {
-        collectionBanner: imgArr[0],
+        collectionBanner: imgArr,
         collectionName: req.body.collectionName,
         collectionTime: new Date(),
         collectionItems: req.body.collectionItems.split(',')
     }
     await Collection.create(data)
-    res.status(200).send("ok");
+    res.status(200).send(data);
 }
 module.exports.updateCollection = function(req, res) {
     var id = req.params.id;
 
     const imgArr = [];
-    if (req.files.length > 0) {
-        req.files.map((item) => {
-            imgArr.push(`http://pe.heromc.net:4000/${item.path.split("/").slice(1).join("/")}`)
-        })
-        const img = {
-            collectionBanner: imgArr[0]
-        }
-        Collection.findByIdAndUpdate({ _id: id }, { $set: img },
+    // if (req.files.length > 0) {
+    req.files.map((item) => {
+        imgArr.push(`http://localhost:5000/${item.orginalname}`)
+    })
+    const img = {
+        collectionBanner: imgArr[0]
+    }
+    Collection.findByIdAndUpdate({ _id: id }, { $set: img },
             function(error) {}
         )
-    }
+        // }
 
     const data = {
         collectionName: req.body.collectionName,
