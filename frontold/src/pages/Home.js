@@ -13,7 +13,6 @@ import axios from 'axios';
 function Home() {
     const [collection, setCollection] = useState([]);
     useEffect(()=>{
-        // axios.get(`http://pe.heromc.net:4000/collection`)
         axios.get(`http://localhost:5000/collection`)
             .then(res => {
                 setCollection(res.data)
