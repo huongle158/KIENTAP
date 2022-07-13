@@ -16,8 +16,6 @@ app.use(cors());
 app.use(express.static('public'))
 app.use('/images', express.static('images'));
 
-// app.use(express.static(path.join(__dirname, 'images')));
-
 
 mongoose.connect(process.env.MONGODB_URL, () => {
     console.log('Connect to MONGODB');

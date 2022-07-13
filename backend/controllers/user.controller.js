@@ -27,7 +27,7 @@ module.exports.info = function (req, res) {
 const generateAccessToken = function (user) {
 	return token = jwt.sign({ id: user.id, admin: user.admin },
 		process.env.SECRET_KEY,
-		{ expiresIn: "30s" });
+		{ expiresIn: "30m" });
 }
 
 const generateRefreshToken = function (user) {
@@ -46,7 +46,7 @@ module.exports.postLogin = async function (req, res) {
 	try {
 		var email = req.body.email;
 		var password = req.body.password;
-		var user = await User.findOne({ userEmail: email });
+		var user = await User.findOne({ email: email });
 		if (!user) {
 			return res.status(400).send('Email is not found!');
 		}
@@ -180,6 +180,9 @@ module.exports.updateUser = async function (req, res) {
 			return res.status(400).json(error)
 		}
 	)
+	res.status(200).send("Updated Successfully");
+
+
 }
 
 
