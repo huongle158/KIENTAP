@@ -42,10 +42,10 @@ function Banner (props) {
                         <div className="flex-center">
                             <div>
                                 <div  
-                                    id={collection[7]._id}
+                                    id={collection[0]._id}
                                     onClick={redirect}
                                     className={currentBanner === 1 ? "banner-link fadeInLeft" :"banner-link"}>
-                                    {collection[7].collectionName}
+                                    {collection[0].collectionName}
                                 </div>
                             </div>
                             <div>
@@ -88,7 +88,7 @@ function Banner (props) {
                     { collection.length > 0 &&
                         <div>
                             <div className={currentBanner === 3 ? "banner-title fadeInDown" :"banner-title"}>
-                                {collection[3].collectionName}
+                                {collection[0].collectionName}
                             </div>
                         </div>
                     }
@@ -96,7 +96,7 @@ function Banner (props) {
                         <div className="flex-center">
                             <div>
                                 <div 
-                                    id={collection[3]._id}
+                                    id={collection[0]._id}
                                     onClick={redirect}
                                     className={currentBanner === 3 ? "banner-link fadeInUp" :"banner-link"}>
                                     Shop now

@@ -73,19 +73,19 @@ function HeaderV3(props) {
                 url: "/men",
                 dropdownContent: []
             },
-            {
-                id: "4",
-                label: "News",
-                url: "/news",
-                dropdownContent: [
-                ]
-            },
-            {
-                id: "5",
-                label: "Contact",
-                url: "/contact",
-                dropdownContent: []
-            },
+            // {
+            //     id: "4",
+            //     label: "News",
+            //     url: "/news",
+            //     dropdownContent: [
+            //     ]
+            // },
+            // {
+            //     id: "5",
+            //     label: "Contact",
+            //     url: "/contact",
+            //     dropdownContent: []
+            // },
         ]
         setNavBar(navBar)
         axios.get(`http://pe.heromc.net:4000/products`)

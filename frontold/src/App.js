@@ -55,7 +55,7 @@ function App(props) {
             <Toast/>
             <Route path="/" exact component={Home}></Route>
             <Route path="/home" exact component={Home}></Route>
-            <Route path="/news" exact component={News}></Route>
+            {/* <Route path="/news" exact component={News}></Route> */}
             <Route path="/men" exact component={Shop}></Route>
             <Route path="/shop" exact component={Shop}></Route>
             <Route path="/shop/:search" exact component={Shop}></Route>
