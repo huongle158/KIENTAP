@@ -23,7 +23,7 @@ function Product(props) {
 
     const redirect = (target) => {
         window.scrollTo(0,0);
-        props.history.push(`/products/${product._id}`);
+        props.history.push(`/product/${product._id}`);
     }
 
     let productDate = new Date(product.productDate) 

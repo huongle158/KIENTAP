@@ -35,6 +35,7 @@ export default function DashboardCollectionCreate(props) {
         });
         formData.append("collectionName", collectionName);
         formData.append('collectionItems', collectionItems);
+        // axios.post('http://pe.heromc.net:4000/collection', formData, config)
         axios.post('http://pe.heromc.net:4000/collection', formData, config)
         .then(()=>{
             props.setCloseCreateFunc(false);

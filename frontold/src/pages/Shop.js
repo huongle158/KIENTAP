@@ -39,7 +39,7 @@ function Shop(props) {
                 const virtualData = []
                 for(let i in res.data) { 
                     if (cate) { 
-                        if ((res.data[i].productName).toLowerCase().includes(cate.toLowerCase())) {
+                        if ((res.data[i].productName)?.toLowerCase().includes(cate.toLowerCase())) {
                             virtualData.push(res.data[i])
                         } 
                     } else {
@@ -49,7 +49,7 @@ function Shop(props) {
                 setProducts(virtualData)
             })
         } else {
-            sex.toLowerCase() === "men" ? sex = "man" : sex = "woman"
+            sex?.toLowerCase() === "men" ? sex = "man" : sex = "woman"
             axios.get(`http://localhost:5000/product`)
                 .then(res => {
                     const virtualCate = []
@@ -78,13 +78,14 @@ function Shop(props) {
                     const virtualData = []
                     for(let i in res.data) { 
                         if (!cate) {
-                            if (res.data[i].productSex.toLowerCase() === sex) {
+                            if (res.data[i].productSex?.toLowerCase() === sex) {
                                 virtualData.push(res.data[i])
                             }
                         } else {
-                            if (res.data[i].productSex.toLowerCase() === sex && cate && res.data[i].productGroupCate.toLowerCase().split(' ').join('-') === cate) {
+                            
+                            if (res.data[i].productSex?.toLowerCase() === sex && cate && res.data[i].productGroupCate?.toLowerCase().split(' ').join('-') === cate) {
                                 virtualData.push(res.data[i])
-                            } else if (res.data[i].productSex.toLowerCase() === sex && cate && res.data[i].productCate.toLowerCase().split(' ').join('-') === cate) {
+                            } else if (res.data[i].productSex?.toLowerCase() === sex && cate && res.data[i].productCate?.toLowerCase().split(' ').join('-') === cate) {
                                 virtualData.push(res.data[i])
                             }
                         }

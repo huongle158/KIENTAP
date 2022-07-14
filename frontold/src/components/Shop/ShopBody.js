@@ -62,7 +62,7 @@ function ShopBody(props) {
     }
 
     const chooseCateLink = (event) => {
-        props.history.push(`/${location}/${(event.target.id).toLowerCase().split(' ').join('-')}`)
+        props.history.push(`/${location}/${(event.target.id)?.toLowerCase().split(' ').join('-')}`)
     }
 
     const chooseSize = (event) => {
@@ -70,7 +70,7 @@ function ShopBody(props) {
         const id = event.target.id
         for (let i in constProduct) {
             for (let j in constProduct[i].productSize) {
-                if (constProduct[i].productSize[j].toLowerCase() === id) {
+                if (constProduct[i].productSize[j]?.toLowerCase() === id) {
                     virtualProduct.push(constProduct[i])
                 }
             }

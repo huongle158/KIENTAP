@@ -8,7 +8,7 @@ function CollectionItem(props) {
 
     const redirect = () => {
         window.scrollTo(0,0);
-        props.history.push(`/products/${props.product._id}`)
+        props.history.push(`/product/${props.product._id}`)
     }  
 
     return (

@@ -66,9 +66,6 @@ function App(props) {
             <Route path="/admin" exact component={Login}></Route>
             <Route path="/admin/dashboard" exact component={Dashboard}></Route>
             <Route path="/checkout" exact component={Checkout}></Route> 
-            {/* <Route path="/news/category/:cate" exact component={NewsCate}></Route> */}
-            {/* <Route path="/news/:id" exact component={NewsDetail}></Route> */}
-            {/* <Route path="/news" exact component={News}></Route> */}
           </div>
           <OpenChatBtn/>
         </Router>

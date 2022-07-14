@@ -10,7 +10,7 @@ export default function WishListItem(props) {
 
     const cartClick = (event) => {
         const id = event.target.id
-        axios.get(`http://pe.heromc.net:4000/products/${id}`)
+        axios.get(`http://localhost:5000/product/${id}`)
             .then(res => {
                 addToCart(res.data)
             }

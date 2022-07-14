@@ -65,7 +65,7 @@ function AccountInfo(props) {
          if (userInfo.userHuyen !== "") {
                setUserHuyen(userInfo.userHuyen)
          }
-         axios.get(`http://pe.heromc.net:4000/order`)
+         axios.get(`http://localhost:5000/order`)
             .then(res => {
                const orderList2 = []
                for (let i in res.data) {
@@ -99,7 +99,7 @@ function AccountInfo(props) {
       formData.append("userHuyen", userHuyen);
       formData.append("userAddress", userAddress);
       localStorage.removeItem('token')
-      axios.post(`http://pe.heromc.net:4000/users/update/${userInfo._id}`, formData, config)
+      axios.post(`http://localhost:5000/user/update/${userInfo._id}`, formData, config)
             .then(res => {
                setUserInfoFunc(res.data.user);
                localStorage.setItem('token', res.data.token);

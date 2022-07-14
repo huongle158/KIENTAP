@@ -87,7 +87,7 @@ function HeaderV2(props) {
             },
         ]
         setNavBar(navBar)
-        axios.get(`http://pe.heromc.net:4000/products`)
+        axios.get(`http://localhost:5000/product`)
             .then(res => {
                 let virtualNavBar = [...navBar]
                 const menProduct = []
@@ -373,7 +373,7 @@ function HeaderV2(props) {
             <div className={classNames('cart flex-center', {
                     whitelink_header: whiteText === true
                 })}> 
-                <div className="icon-container">
+                {/* <div className="icon-container">
                     <FontAwesomeIcon 
                         icon={faSearch} 
                         className="icon search-icon"
@@ -381,7 +381,7 @@ function HeaderV2(props) {
                             setSearchOpen(true)
                         }}
                         />
-                </div>
+                </div> */}
                 <div 
                     className="icon flex-center"
                     onClick={()=> {

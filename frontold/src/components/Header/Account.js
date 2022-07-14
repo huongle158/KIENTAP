@@ -29,7 +29,7 @@ function Account(props) {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (tabID === 0) {
-            axios.post('http://localhost:5000/users/login', {
+            axios.post('http://localhost:5000/user/login', {
                 email: user.email,
                 password: user.password
             }) 
@@ -65,8 +65,8 @@ function Account(props) {
         }
     }
 
-    useEffect(()=> {
-        axios.get(`http://pe.heromc.net:4000/users/${localStorage.getItem('user-id')}`, { 
+    useEffect(() => {
+        axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
             headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
         })
         .then(res => {

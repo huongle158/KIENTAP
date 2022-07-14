@@ -11,7 +11,9 @@ import QRCode from 'qrcode.react'
 import { APIs } from './ZaloPay/common';
 import $ from 'jquery';  
 
-const ENDPOINT = "http://pe.heromc.net:4000";
+// const ENDPOINT = "http://pe.heromc.net:4000";
+const ENDPOINT = "http://localhost:5000";
+
 
 function CheckoutBody(props) {
     
@@ -130,7 +132,7 @@ function CheckoutBody(props) {
                 alert("Your payment not yet confirmed!")
                 return
             } else {
-                axios.post('http://pe.heromc.net:4000/order', data)
+                axios.post('http://localhost:5000', data)
                 setTimeout(()=>{ 
                     setConfirm(true)
                     document.body.style.overflow = 'hidden';
@@ -139,7 +141,7 @@ function CheckoutBody(props) {
                 }, 1000)
             }
         } else {
-            axios.post('http://pe.heromc.net:4000/order', data)
+            axios.post('http://localhost:5000/order', data)
             setTimeout(()=>{ 
                 setConfirm(true)
                 document.body.style.overflow = 'hidden';

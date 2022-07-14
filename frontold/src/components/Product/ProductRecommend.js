@@ -12,7 +12,8 @@ export default function ProductRecommend(props) {
     }
 
     useEffect(() => {
-        axios.get(`http://pe.heromc.net:4000/products`)
+        
+        axios.get(`http://localhost:5000/product`)
             .then(res => {
                 setProducts(res.data)
             }
