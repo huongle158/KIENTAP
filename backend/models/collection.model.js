@@ -4,7 +4,8 @@ var collectionSchema = new mongoose.Schema({
     collectionName: String,
     collectionImg: String,
     collectionTime: Date,
-    collectionBanner: String,
+    collectionBanner: Array,
+    // collectionItems: Array
     collectionItems: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product'

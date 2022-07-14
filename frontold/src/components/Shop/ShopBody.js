@@ -197,9 +197,9 @@ function ShopBody(props) {
                     </div>
                     <div className="shopbody-filter-price">
                         <div className="shopbody-filter-title">Price</div>
-                        <RangeSlider
+                        {/* <RangeSlider
                             setSortPriceValue={setSortPriceValue}
-                        />
+                        /> */}
                     </div>
                     <div 
                         className="shopbody-filter-submit btn"
@@ -326,9 +326,9 @@ function ShopBody(props) {
                                         </select> 
                                         <div>
                                             <div className="filter-box-text">Price</div>
-                                            <RangeSlider
+                                            {/* <RangeSlider
                                                 setSortPriceValue={setSortPriceValue}
-                                            />
+                                            /> */}
                                         </div>
                                         <div 
                                             className="shopbody-filter-submit btn"
