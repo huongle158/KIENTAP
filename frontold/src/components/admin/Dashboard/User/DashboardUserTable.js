@@ -13,7 +13,7 @@ export default function DashboardUserTable(props) {
     const [constUser, setConstUser] = useState([])
     
     useEffect(()=>{
-        axios.get(`http://pe.heromc.net:4000/users/list`)
+        axios.get(`http://localhost:5000/user/list`)
             .then(res => {
                 setUser(res.data)
                 setConstUser(res.data)
@@ -99,7 +99,7 @@ export default function DashboardUserTable(props) {
     }
 
     const deleteOnClick = (event) => {
-        axios.post(`http://pe.heromc.net:4000/users/delete/:${event.target.id}`, {
+        axios.post(`http://localhost:5000/user/list/delete/:${event.target.id}`, {
             id: event.target.id
         })
         setUser(user.filter((item)=>{
@@ -198,23 +198,23 @@ export default function DashboardUserTable(props) {
                                             <td style={{display: 'flex'}}>
                                                 <img 
                                                     className="table-mobile-useravt"
-                                                    src={item.userAvt} 
+                                                    src={item.avt} 
                                                     width="70px" height="80px"
                                                     style={{padding: '5px 0', borderRadius: '50%'}}
                                                     alt=""
                                                 />
                                             </td>
                                             <td>
-                                                <p>{item.userName}</p>
+                                                <p>{item.email}</p>
                                             </td>
                                             <td className="table-mobile-useremail">
-                                                <p>{item.userEmail}</p>
+                                                <p>{item.email}</p>
                                             </td>
                                             <td className="table-mobile-userphone">
-                                                <p>{item.userPhone}</p>
+                                                <p>{item.phone}</p>
                                             </td>
                                             <td className="table-mobile-useraddress">
-                                                <p>{item.userAddress}, {item.userHuyen}, {item.userTinh}</p>
+                                                <p>{item.address}, {item.userHuyen}, {item.userTinh}</p>
                                             </td>
                                             <td>
                                                 <div className="action-table flex">

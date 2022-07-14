@@ -8,7 +8,7 @@ import { faEnvelope, faFileInvoice, faHome, faInbox, faNewspaper, faShoppingBag,
 import socketIOClient from "socket.io-client" 
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom'
-const ENDPOINT = "http://pe.heromc.net:4000";
+const ENDPOINT = "http://localhost:5000";
 
 function Dashboard(props) {
     const menuItems = [
@@ -17,16 +17,6 @@ function Dashboard(props) {
             name: "Dashboard",
             icon: faHome
         },
-        {
-            id: "2",
-            name: "Live Chat",
-            icon: faInbox
-        },
-        // {
-        //     id: "3",
-        //     name: "Email",
-        //     icon: faEnvelope
-        // },
         {
             id: "3",
             name: "Orders",
@@ -37,23 +27,19 @@ function Dashboard(props) {
             name: "Products",
             icon: faTshirt
         },
-        {
-            id: "5",
-            name: "News",
-            icon: faNewspaper
-        },
+      
         {
             id: "6",
             name: "Users",
             icon: faUser
         },
         {
-            id: "7",
+            id: "2",
             name: "Collection",
             icon: faShoppingBag
         },
         {
-            id: "8",
+            id: "5",
             name: "Subscribers",
             icon: faEnvelope
         },
@@ -68,37 +54,37 @@ function Dashboard(props) {
     const [orderNotice, setOrderNotice] = useState(null) 
     const [userInfo, setUserInfo] = useState(null)
 
-    useEffect(()=>{
-        if (localStorage.getItem('token')) {
-            // Axios.get(`http://pe.heromc.net:4000/users/${localStorage.getItem('user-id')}`, { 
-            //     headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
-            // })
-            Axios.get(`http://localhost:5000/admin/${localStorage.getItem('user-id')}`, { 
-                headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
-            })
-            .then(res => {
-                setUserInfo(res.data.user)
-                const userInfo = res.data.user; 
-                if (userInfo.admin === true) {
-                    socket.emit('join', {
-                        sessionId: 'admin',
-                        isAdmin: true
-                    })
-                    socket.on("placeAnOrder-notice", function(data) {
-                        setOrderNotice(data)
-                    }) 
-                } else {
-                    localStorage.setItem("errLogin", "You do not have Administrator access!")
-                    props.history.push('/admin') 
-                }
-            })
-            .catch(err => { 
-                console.log(err)
-            })
-        } else {
-            props.history.push('/admin')
-        }
-    },[]) 
+    // useEffect(()=>{
+    //     if (localStorage.getItem('token')) {
+    //         // Axios.get(`http://pe.heromc.net:4000/users/${localStorage.getItem('user-id')}`, { 
+    //         //     headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
+    //         // })
+    //         Axios.get(`http://localhost:5000/admin/${localStorage.getItem('user-id')}`, { 
+    //             headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
+    //         })
+    //         .then(res => {
+    //             setUserInfo(res.data.user)
+    //             const userInfo = res.data.user; 
+    //             if (userInfo.admin === true) {
+    //                 socket.emit('join', {
+    //                     sessionId: 'admin',
+    //                     isAdmin: true
+    //                 })
+    //                 socket.on("placeAnOrder-notice", function(data) {
+    //                     setOrderNotice(data)
+    //                 }) 
+    //             } else {
+    //                 localStorage.setItem("errLogin", "You do not have Administrator access!")
+    //                 props.history.push('/admin') 
+    //             }
+    //         })
+    //         .catch(err => { 
+    //             console.log(err)
+    //         })
+    //     } else {
+    //         props.history.push('/admin')
+    //     }
+    // },[]) 
 
     const setTabIdOnClick = (id) => {
         setTabId(id);

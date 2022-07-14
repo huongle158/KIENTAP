@@ -36,7 +36,7 @@ export default function DashboardOrderCreate(props) {
             listOrder.push(data)
         }
 
-        axios.post('http://pe.heromc.net:4000/order', {
+        axios.post('http://localhost:5000/order', {
             orderName: orderName,
             orderEmail: orderEmail,
             orderPhone: orderPhone,
@@ -57,7 +57,7 @@ export default function DashboardOrderCreate(props) {
     const [user, setUser] = useState("")
 
     useEffect(()=>{
-        axios.get(`http://pe.heromc.net:4000/users/list`)
+        axios.get(`http://localhost:5000/user/list`)
             .then(res => {
                 setUserList(res.data)
                 res.data.filter((item)=>{
@@ -85,13 +85,13 @@ export default function DashboardOrderCreate(props) {
                 })
             }
         )
-        axios.get(`http://pe.heromc.net:4000/vietnam`)
+        axios.get(`https://provinces.open-api.vn/api/?depth=2`)
             .then(res => {
-                setTinh(res.data[0].tinh)
-                setHuyen(res.data[0].huyen)
+                setTinh(res.data)
+                
             }
         )
-        axios.get(`http://pe.heromc.net:4000/products`)
+        axios.get(``)
             .then(res => {
                 setProduct(res.data)
             }
@@ -104,8 +104,9 @@ export default function DashboardOrderCreate(props) {
             setOrderProvince("")
             setProvinceId("")
         }
+        
     },[user])
-    
+   
     return (
         <div className="DashboardProductInfo">
             <div className="create-box"> 
@@ -138,8 +139,8 @@ export default function DashboardOrderCreate(props) {
                                         return (
                                             <option
                                                 key={index}
-                                                value={item.userEmail}
-                                            >{item.userEmail}</option>
+                                                value={item.email}
+                                            >{item.email}</option>
                                         )
                                     })
                                 }
@@ -191,6 +192,8 @@ export default function DashboardOrderCreate(props) {
                                 onChange={(event)=>{
                                     setProvinceId(event.target.selectedIndex)
                                     setOrderProvince(event.target.value)
+                                    
+                                   
                                 }}
                                 >
                                 <option disabled selected value>select a province</option>
@@ -216,17 +219,7 @@ export default function DashboardOrderCreate(props) {
                                 }}
                             >
                                 <option disabled selected value>select a district</option>
-                                {huyen.map((item, index) => {
-                                    if (item.tinh_id === provinceId) {
-                                        return (
-                                            <option
-                                                key={index}
-                                                value={item.name}
-                                            >{item.name}</option>
-                                        )
-                                    }
-                                    return null
-                                })}
+                             
                             </select>
                         </div>
                     </div>
