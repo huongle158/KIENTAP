@@ -116,7 +116,7 @@ module.exports.updateProduct = async function (req, res) {
 	const imgArr = [];
 	if (req.files) {
 		req.files.map((item) => {
-			imgArr.push(`http://localhost:5000/${item.path.split(".").slice(1).join("/")}`)
+			imgArr.push(`http://localhost:5000/${item.orginalname}`)
 		})
 	}
 	const img = {

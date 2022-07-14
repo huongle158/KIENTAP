@@ -34,14 +34,21 @@ function Login(props) {
             password: password
         })
             .then(res => {
-                setArrSuccess(["Login success!"])
-                setArrErr([]);
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('user-id', res.data._id);
-                props.history.push('/admin/dashboard')
+                if (res.data.admin){
+                    setArrSuccess(["Login success!"])
+                    setArrErr([]);
+                    localStorage.setItem('token', res.data.accessToken);
+                    localStorage.setItem('user-id', res.data._id);
+                    props.history.push('/admin/dashboard')
+                }
+                else{
+                    setArrSuccess([]);
+                    setArrErr(["You do not have Administrator access!"]);
+                }
+                
             })
             .catch(err => {
-                setArrErr([err.data]);
+                setArrErr([err.response.data]);
                 setArrSuccess([])
             })
     }
@@ -51,6 +58,7 @@ function Login(props) {
         uniqueErr = arrErr.filter(function (item, pos) {
             return arrErr.indexOf(item) === pos;
         })
+        // uniqueErr = arrErr
     }
     if (arrSuccess.length > 0) {
         uniqueSuccess = arrSuccess.filter(function (item, pos) {
@@ -73,10 +81,11 @@ function Login(props) {
                             {uniqueErr &&
                                 <div style={{ width: '100%', padding: '0' }}>
                                     {
+                                        
                                         uniqueErr.map((item, index) => {
                                             return (
-                                                <div key={index}>
-                                                    <FontAwesomeIcon icon={faTimes} style={{ marginRight: '10px', color: 'red' }} />
+                                                <div key={index} style={{ color: 'red', fontStyle: 'italic' }}>
+                                                    <FontAwesomeIcon icon={faTimes} style={{ marginRight: '10px'}} />
                                                     {item}
                                                 </div>
                                             )

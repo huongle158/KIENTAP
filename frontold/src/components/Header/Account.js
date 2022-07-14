@@ -29,9 +29,9 @@ function Account(props) {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (tabID === 0) {
-            axios.post('http://pe.heromc.net:4000/users/login', {
-                loginEmail: user.loginEmail,
-                loginPassword: user.loginPassword
+            axios.post('http://localhost:5000/users/login', {
+                email: user.email,
+                password: user.password
             }) 
             .then(res => {
                 setArrSuccess(arrSuccess=>[...arrSuccess, "Login success!"])
