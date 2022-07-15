@@ -21,8 +21,6 @@ mongoose.connect(process.env.MONGODB_URL, () => {
     console.log('Connect to MONGODB');
 })
 
-var Product = require("./models/product.model");
-
 var userRoutes = require('./routes/user');
 var collectionRoutes = require('./routes/collection')
 var orderRoutes = require('./routes/order');
@@ -30,9 +28,6 @@ var productRoutes = require('./routes/product');
 var emailRoutes = require('./routes/email')
 
 
-app.get('/', (req, res) => {
-    res.send('OK')
-})
 app.use('/user', userRoutes)
 app.use('/collection', collectionRoutes)
 app.use("/order", orderRoutes);

@@ -16,7 +16,7 @@ transporter.verify(function (error, success) {
 	if (error) {
 		console.log(error);
 	} else {
-		// console.log('Kết nối thành công!');
+		console.log('Kết nối thành công!');
 	}
 });
 
@@ -54,38 +54,38 @@ module.exports.postProduct = async function (req, res) {
 	await Product.create(data)
 
 	// Tạo sản phẩm mới xong sẽ được gửi mail tới các subscriberEmail
-	// var emailList = await Email.find()
+	var emailList = await Email.find()
 
-	// for (let i in emailList) {
+	for (let i in emailList) {
 
-	// 	Email.findOne({ _id: emailList[i]._id })
-	// 		.updateOne({$push: { 
-	// 			sendedEmail: {
-	// 				emailId: new mongoose.mongo.ObjectId(),
-	// 				isSeen: false
-	// 			}
-	// 		}})
-	// 		.exec()
+		Email.findOne({ _id: emailList[i]._id })
+			.updateOne({$push: { 
+				sendedEmail: {
+					emailId: new mongoose.mongo.ObjectId(),
+					isSeen: false
+				}
+			}})
+			.exec()
 
 
-	// 	var emailInfo = await Email.findById(emailList[i]._id)
+		var emailInfo = await Email.findById(emailList[i]._id)
 
-	// 	var mailOptions = {
-	// 		from: 'ytn194062@st.uel.edu.vn',
-	// 		to: emailList[i].subscriberEmail,
-	// 		subject: 'HOT!!! Sản phẩm mới tại SOBER SHOP',
-	// 		html: '<p>Sản phẩm mới nè</p>' +
-	// 		`<img src="http://pe.heromc.net:4000/email/${emailList[i]._id}/${emailInfo.sendedEmail[emailInfo.sendedEmail.length - 1].emailId}" alt=""></img>`
-	// 	}
+		var mailOptions = {
+			from: 'ytn194062@st.uel.edu.vn',
+			to: emailList[i].subscriberEmail,
+			subject: 'HOT!!! Sản phẩm mới tại SOBER SHOP',
+			html: '<p>chúng tôi vừa ra mắt sản phẩm mới phù hợp với bạn. Xem ngay!</p>' +
+			`<img src="http://localhost:5000/email/${emailList[i]._id}/${emailInfo.sendedEmail[emailInfo.sendedEmail.length - 1].emailId}" alt=""></img>`
+		}
 
-	// 	transporter.sendMail(mailOptions, function(error, info){
-	// 	    if (error) {
-	// 	      console.log(error);
-	// 	    } else {
-	// 	      console.log('Email sent: ' + info.response);
-	// 	    }
-	// 	})
-	// }
+		transporter.sendMail(mailOptions, function(error, info){
+		    if (error) {
+		      console.log(error);
+		    } else {
+		      console.log('Email sent: ' + info.response);
+		    }
+		})
+	}
 
 	res.status(200).send("ok");
 }

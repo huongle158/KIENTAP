@@ -7,19 +7,21 @@ module.exports.index = async function (req, res) {
 	var users = await User.find();
 	res.json(users);
 };
+
 module.exports.list = async function (req, res) {
-	var users = await User.find();
+	var users = await User.find().select("-password")
 	res.json(users);
 };
+
 module.exports.listId = function (req, res) {
 	var id = req.params.id;
-	User.findById({ _id: id }).then(function (users) {
+	User.findById({ _id: id }).select("-password").then(function (users) {
 		res.json(users);
 	})
 }
 module.exports.info = function (req, res) {
 	var id = req.params.id;
-	User.findById({ _id: id }).then(function (users) {
+	User.findById({ _id: id }).select("-password").then(function (users) {
 		res.json(users);
 	})
 }
@@ -46,7 +48,7 @@ module.exports.postLogin = async function (req, res) {
 	try {
 		var email = req.body.email;
 		var password = req.body.password;
-		var user = await User.findOne({ email: email });
+		var user = await User.findOne({ email: email }).select("+password").exec();
 		if (!user) {
 			return res.status(400).send('Email is not found!');
 		}
@@ -67,7 +69,7 @@ module.exports.postLogin = async function (req, res) {
 				path: "/",
 				sameSite: "strict"
 			})
-			const { userPassword, ...others } = user._doc
+			const { password, ...others } = user._doc
 			return res.status(200).json({ ...others, accessToken });
 		}
 	}

@@ -8,8 +8,8 @@ var mongoose = require('mongoose');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.email,
-        pass: process.env.pass
+        user: "ytn194062@st.uel.edu.vn",
+        pass: "88352775"
     }
 })
 transporter.verify(function(error, success) {
@@ -74,7 +74,7 @@ module.exports.postEmail = async function(req, res) {
     })
 
     var mailOptions = {
-        from: 'k19406@st.uel.edu.vn',
+        from: 'ytn194062@st.uel.edu.vn',
         to: email,
         subject: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop',
         text: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop'
