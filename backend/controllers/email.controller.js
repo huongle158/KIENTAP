@@ -18,26 +18,26 @@ transporter.verify(function(error, success) {
     } else {}
 });
 
-module.exports.index = async function(req, res) {
+// module.exports.index = async function(req, res) {
 
-    console.log("check")
+//     console.log("check")
 
-    Email.findOneAndUpdate({ _id: req.params.idUser, "sendedEmail.emailId": req.params.idEmail }, {
-            $set: {
-                "sendedEmail.$.isSeen": true
-            }
-        },
-        function(error) {
-            if (error) {
-                console.log(error);
-            }
-        }
-    );
+//     Email.findOneAndUpdate({ _id: req.params.idUser, "sendedEmail.emailId": req.params.idEmail }, {
+//             $set: {
+//                 "sendedEmail.$.isSeen": true
+//             }
+//         },
+//         function(error) {
+//             if (error) {
+//                 console.log(error);
+//             }
+//         }
+//     );
 
-    var emailList = await Email.find()
+//     var emailList = await Email.find()
 
-    res.send(emailList)
-}
+//     res.send(emailList)
+// }
 module.exports.list = async function(req, res) {
     var email = await Email.find();
     res.json(email);
@@ -59,7 +59,6 @@ module.exports.updateEmail = function(req, res) {
 };
 
 module.exports.postEmail = async function(req, res) {
-
     var email = req.body.subscriber;
     var emailData = await Email.findOne({ subscriberEmail: email });
     if (emailData) {
@@ -72,14 +71,12 @@ module.exports.postEmail = async function(req, res) {
             isSeen: false
         }]
     })
-
     var mailOptions = {
         from: 'k19406@st.uel.edu.vn',
         to: email,
         subject: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop',
         text: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop'
     }
-
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             console.log(error);
@@ -87,7 +84,6 @@ module.exports.postEmail = async function(req, res) {
             console.log('Email sent: ' + info.response);
         }
     })
-
     res.status(200).send('Subscriber for news successful!');
 }
 module.exports.deleteSubscriber = async function(req, res) {
