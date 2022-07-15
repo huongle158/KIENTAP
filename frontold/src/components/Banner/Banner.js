@@ -65,7 +65,7 @@ function Banner (props) {
                     { collection.length > 0 &&
                         <div>
                             <div className={currentBanner === 2 ? "banner-title fadeInDown" :"banner-title"}>
-                                {collection[1].collectionName}
+                                {collection[0].collectionName}
                             </div>
                         </div>
                     }
@@ -73,7 +73,7 @@ function Banner (props) {
                         <div>
                             <div>
                                 <div 
-                                    id={collection[1]._id}
+                                    id={collection[0]._id}
                                     onClick={redirect}
                                     className={currentBanner === 2 ? "banner-link fadeInUp" :"banner-link"} style={{marginLeft: '190px'}}>
                                     Shop now
