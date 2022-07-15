@@ -3,7 +3,7 @@ const router = express.Router();
 
 var controller = require("../controllers/email.controller");
 
-router.get("/:idUser/:idEmail", controller.index);
+// router.get("/:idUser/:idEmail", controller.index);
 router.get("/", controller.list);
 router.get("/:id", controller.info);
 router.post("/", controller.postEmail);
