@@ -28,13 +28,14 @@ export default function WishListItem(props) {
                 }
                 {
                     wishListItems.map((item, index) => {
+                        console.log(item.productName)
                         return (
                             <div className="cart-item flex" key={index}>
                                 <div className="cart-product-img">
                                     <img src={item.productImg[0]} width="80px" height="100%" alt=""></img>
                                 </div>
                                 <div className="cart-product-mobile flex">
-                                    <div className="cart-product-name flex" style={{alignItems: 'center', justifyContent: 'flex-start'}}>{item.productName}</div>
+                                    <div className="cart-product-name flex" style={{alignItems: 'center', justifyContent: 'flex-start'}}>{item?.productName}</div>
                                     {   item.productFinalPrice &&
                                         <div className="cart-product-price wl-mb-price flex" style={{alignItems: 'center', justifyContent: 'flex-start'}}>{item.productFinalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} đ</div>
                                     }

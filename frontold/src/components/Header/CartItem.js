@@ -32,7 +32,8 @@ export default function CartItem(props) {
                     </div>
                 }
                 {
-                    cartItems.map((item, index) => {
+                    cartItems?.map((item, index) => {
+                        console.log(item)
                         return (
                             <div className="cart-item flex" key={index}>
                                 <div className="cart-product-img">
@@ -41,7 +42,8 @@ export default function CartItem(props) {
                                         <img src={item.productImg[0]} width="80px" height="100%" alt=""></img>
                                     }
                                 </div>
-                                {item.productFinalPrice &&
+                                {/* item.productFinalPrice */}
+                                {item.productName &&
                                     <div className="cart-product-mobile flex">
                                         <div className="cart-product-name flex" style={{alignItems: 'center', justifyContent: 'flex-start'}}>{item.productName}</div>
                                         <div className="cart-product-amount flex-center">
@@ -73,8 +75,8 @@ export default function CartItem(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="cart-product-price flex" style={{alignItems: 'center', justifyContent: 'center'}}>{item.productFinalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} đ</div>
-                                        <div className="cart-product-totalprice flex" style={{alignItems: 'center', justifyContent: 'center'}}>{(item.productFinalPrice * item.count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} đ</div>
+                                        <div className="cart-product-price flex" style={{alignItems: 'center', justifyContent: 'center'}}>{item.productPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} đ</div>
+                                        <div className="cart-product-totalprice flex" style={{alignItems: 'center', justifyContent: 'center'}}>{(item.productPrice * item.count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} đ</div>
                                         <div className="cart-product-delete"
                                         onClick={removeFromCart}
                                         id={item._id}>

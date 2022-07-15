@@ -68,6 +68,7 @@ function Dashboard(props) {
     const [orderNotice, setOrderNotice] = useState(null)
     const [userInfo, setUserInfo] = useState(null)
 
+        // `http://localhost:5000/user/${localStorage.getItem('user-id')}`
     useEffect(() => {
         if (localStorage.getItem('token')) {
             Axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, {

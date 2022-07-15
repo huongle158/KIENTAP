@@ -23,7 +23,7 @@ function NewsBanner(props) {
     const redirect = (event) => {
         window.scrollTo(0,0);
         if (event.target.textContent === 'news') {
-            props.history.push(`/news`)
+            props.history.push(`/`)
         }
     } 
 

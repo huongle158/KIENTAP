@@ -96,7 +96,7 @@ export default function ProductDetail(props) {
     useEffect(() => {
         window.scrollTo(0,0);
         document.body.style.overflow = 'unset';
-        axios.get(`http://localhost:5000/product` + props.match.params.id)
+        axios.get(`http://localhost:5000/product/` + props.match.params.id)
             .then(res => {
                 setProduct(res.data)
             }

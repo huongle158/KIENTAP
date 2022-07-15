@@ -7,7 +7,7 @@ import Div100vh from 'react-div-100vh';
 
 function Banner (props) {
     const [currentBanner, setCurrentBanner] = useState(1);
-    const collection = props.collection;
+    const collection = props?.collection;
 
     useEffect(()=>{
         const slide = setInterval(() => {
@@ -38,14 +38,14 @@ function Banner (props) {
                             New Arrivals
                         </div>
                     </div>
-                    { collection.length > 0 &&
+                    { collection?.length > 0 &&
                         <div className="flex-center">
                             <div>
                                 <div  
                                     id={collection[0]._id}
                                     onClick={redirect}
                                     className={currentBanner === 1 ? "banner-link fadeInLeft" :"banner-link"}>
-                                    {collection[0].collectionName}
+                                    {collection[0]?.collectionName}
                                 </div>
                             </div>
                             <div>
@@ -53,7 +53,7 @@ function Banner (props) {
                                 id={collection[0]._id}
                                 onClick={redirect}
                                 className={currentBanner === 1 ? "banner-link fadeInRight" :"banner-link"}>
-                                    {collection[0].collectionName}
+                                    {collection[0]?.collectionName}
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@ function Banner (props) {
                     { collection.length > 0 &&
                         <div>
                             <div className={currentBanner === 2 ? "banner-title fadeInDown" :"banner-title"}>
-                                {collection[0].collectionName}
+                                {collection[0]?.collectionName}
                             </div>
                         </div>
                     }
@@ -85,14 +85,14 @@ function Banner (props) {
                 <div className={classNames('banner-third flex-center', {
                     hide: currentBanner !== 3
                 })}>
-                    { collection.length > 0 &&
+                    { collection?.length > 0 &&
                         <div>
                             <div className={currentBanner === 3 ? "banner-title fadeInDown" :"banner-title"}>
-                                {collection[0].collectionName}
+                                {collection[0]?.collectionName}
                             </div>
                         </div>
                     }
-                    { collection.length > 0 &&
+                    { collection?.length > 0 &&
                         <div className="flex-center">
                             <div>
                                 <div 
