@@ -6,16 +6,19 @@ var mongoose = require('mongoose');
 
 // Login with admin email
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Gmail',
     auth: {
-        user: "ytn194062@st.uel.edu.vn",
-        pass: "88352775"
+        user: process.env.email,
+        pass: process.env.pass
+    },
+    tls: {
+        rejectUnauthorized: false
     }
 })
-transporter.verify(function(error, success) {
+transporter.verify(function (error, success) {
     if (error) {
         console.log(error);
-    } else {}
+    } else { }
 });
 
 // module.exports.index = async function(req, res) {
@@ -38,19 +41,19 @@ transporter.verify(function(error, success) {
 
 //     res.send(emailList)
 // }
-module.exports.list = async function(req, res) {
+module.exports.list = async function (req, res) {
     var email = await Email.find();
     res.json(email);
 }
-module.exports.info = function(req, res) {
+module.exports.info = function (req, res) {
     var id = req.params.id;
-    Email.findById({ _id: id }).then(function(email) {
+    Email.findById({ _id: id }).then(function (email) {
         res.json(email);
     });
 };
-module.exports.updateEmail = function(req, res) {
+module.exports.updateEmail = function (req, res) {
     var id = req.params.id;
-    Email.findByIdAndUpdate(id, req.body, function(error) {
+    Email.findByIdAndUpdate(id, req.body, function (error) {
         if (error) {
             console.log(error);
         }
@@ -58,7 +61,7 @@ module.exports.updateEmail = function(req, res) {
     res.status(200).send("ok");
 };
 
-module.exports.postEmail = async function(req, res) {
+module.exports.postEmail = async function (req, res) {
     var email = req.body.subscriber;
     var emailData = await Email.findOne({ subscriberEmail: email });
     if (emailData) {
@@ -72,12 +75,12 @@ module.exports.postEmail = async function(req, res) {
         }]
     })
     var mailOptions = {
-        from: 'ytn194062@st.uel.edu.vn',
+        from: 'SOBER SHOP',
         to: email,
         subject: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop',
-        text: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop'
+        text: 'Cảm ơn bạn đã đăng kí nhận tin mới tại SOBER shop. Truy cập shop để xem những sản phẩm mới nhất!'
     }
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -86,7 +89,7 @@ module.exports.postEmail = async function(req, res) {
     })
     res.status(200).send('Subscriber for news successful!');
 }
-module.exports.deleteSubscriber = async function(req, res) {
+module.exports.deleteSubscriber = async function (req, res) {
     await Email.findByIdAndRemove({ _id: req.body.id })
     res.status(200).send("ok");
 }

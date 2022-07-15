@@ -1,8 +1,8 @@
 var Product = require("../models/product.model.js");
-// var Email = require("../models/email.model");
 var multer = require('multer');
 var nodemailer = require('nodemailer');
-
+var Email = require('../models/email.model');
+var mongoose = require('mongoose');
 
 // Login with admin email
 var transporter = nodemailer.createTransport({
@@ -16,7 +16,7 @@ transporter.verify(function (error, success) {
 	if (error) {
 		console.log(error);
 	} else {
-		console.log('Kết nối thành công!');
+		console.log('Email connected!');
 	}
 });
 
@@ -35,7 +35,7 @@ module.exports.product = function (req, res) {
 module.exports.postProduct = async function (req, res) {
 	const imgArr = [];
 	req.files.map((item) => {
-		imgArr.push(`http://localhost:5000/${item.orginalname}`)
+		imgArr.push(`http://localhost:5000/images/${item.originalname}`)
 	})
 	const data = {
 		productName: req.body.productName,
@@ -71,11 +71,11 @@ module.exports.postProduct = async function (req, res) {
 		var emailInfo = await Email.findById(emailList[i]._id)
 
 		var mailOptions = {
-			from: 'ytn194062@st.uel.edu.vn',
+			from: 'SOBER SHOP',
 			to: emailList[i].subscriberEmail,
 			subject: 'HOT!!! Sản phẩm mới tại SOBER SHOP',
-			html: '<p>chúng tôi vừa ra mắt sản phẩm mới phù hợp với bạn. Xem ngay!</p>' +
-			`<img src="http://localhost:5000/email/${emailList[i]._id}/${emailInfo.sendedEmail[emailInfo.sendedEmail.length - 1].emailId}" alt=""></img>`
+			html: '<h4>Chúng tôi vừa ra mắt sản phẩm mới phù hợp với bạn. Xem ngay!</h4>' +
+			`<img src="${imgArr[0]}" alt=""></img>`
 		}
 
 		transporter.sendMail(mailOptions, function(error, info){
@@ -87,7 +87,7 @@ module.exports.postProduct = async function (req, res) {
 		})
 	}
 
-	res.status(200).send("ok");
+	res.status(200).send(data);
 }
 
 module.exports.updateProduct = async function (req, res) {
