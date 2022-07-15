@@ -82,12 +82,12 @@ export default function DashboardProductEdit(props) {
             setProductSex(product.productSex)
             setProductSize(product.productSize)
             setProductGroupCate(product.productGroupCate)
-            axios.get(`http://pe.heromc.net:4000/category`)
+            axios.get(``)
                 .then(res => {
                     setCate(res.data)
                 }
             )
-            axios.get(`http://pe.heromc.net:4000/products`)
+            axios.get(`http://localhost:5000/product`)
                 .then(res => {
                     const test = Object.values(res.data.reduce((a, {productGroupCate}) => {
                         a[productGroupCate] = a[productGroupCate] || {productGroupCate};
@@ -130,7 +130,7 @@ export default function DashboardProductEdit(props) {
         formData.append("productDes", productDes);
         formData.append("productSex", productSex);
         formData.append("productDate", new Date());
-        axios.post(`http://pe.heromc.net:4000/products/update/${product._id}`, formData, config)
+        axios.post(`http://localhost:5000/product/update/${product._id}`, formData, config)
         .then(()=>{
             props.setCloseEditFunc(false);
             props.setToastFunc(true);
@@ -141,9 +141,6 @@ export default function DashboardProductEdit(props) {
     }
 
     const addNewCate = () => {
-        axios.post('http://pe.heromc.net:4000/category', {
-            cateName: inputValue.cate
-        })
         setCate(cate=>[...cate, {cateName: inputValue.cate}])
         setProductCate(inputValue.cate)
         cateInput.current.value = ""
@@ -164,11 +161,11 @@ export default function DashboardProductEdit(props) {
         const items = [...productImg]
         items.splice(id, 1)
         setProductImg(items)
-        axios.post(`http://pe.heromc.net:4000/products/update/${product._id}`, {
+        axios.post(`http://localhost:5000/product/update/${product._id}`, {
             deleteImgId: id
         })
     }
-
+ 
     return (
         <div className="DashboardProductInfo">
             <div className="create-box">

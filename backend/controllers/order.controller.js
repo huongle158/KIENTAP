@@ -35,10 +35,6 @@ module.exports.postOrder = async function(req, res) {
             for (let i in orderList) {
                 await Product.findByIdAndUpdate(orderList[i].id, {
                     $inc: { productSold: orderList[i].amount / 2 }
-                }, function(error) {
-                    if (error) {
-                        console.log(error);
-                    }
                 })
             }
             await Order.create(data);

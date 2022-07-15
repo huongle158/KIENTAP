@@ -3,14 +3,10 @@ import '../../../../App.css'
 import '../../../../Styles/Dashboard.css'
 import { faFileInvoice, faMoneyBillWave, faStar, faTasks, faTshirt, faUser } from '@fortawesome/free-solid-svg-icons'
 import DashboardTotalCount from './DashboardTotalCount'
-import DashboardLocation from './DashboardLocation'
 import DashboardTopFive from './DashboardTopFive'
 import DashboardRecentReview from './DashboardRecentReview'
 import axios from 'axios'
-import DashboardChart from './DashboardChart'
-import DashboardTodoList from './DashboardTodoList'
-import DashboardChartPie from './DashboardChartPie'
-import DashboardChartLine from './DashboardChartLine'
+
 
 export default function DashboardMain() {
 
@@ -27,7 +23,7 @@ export default function DashboardMain() {
     const [incomeMonthPercent, setIncomeMonthPercent] = useState({}) 
 
     useEffect(()=>{
-        axios.get(`http://pe.heromc.net:4000/products`)
+        axios.get(`http://localhost:5000/product`)
             .then(res => {
                 setProducts(res.data)
                 let virtualProducts = [...res.data]
@@ -43,17 +39,17 @@ export default function DashboardMain() {
                 setTopProductSales(virtualProducts2)
             }
         )
-        axios.get(`http://pe.heromc.net:4000/users/list`)
+        axios.get(`http://localhost:5000/user/list`)
             .then(res => {
                 setUser(res.data)
             }
         ) 
-        axios.get(`http://pe.heromc.net:4000/email`)
+        axios.get(`http://localhost:5000/email`)
             .then(res => {
                 setEmail(res.data)
             }
         ) 
-        axios.get(`http://pe.heromc.net:4000/order`)
+        axios.get(`http://localhost:5000/order`)
             .then(res => {
                 setOrder(res.data)
                 const topCustomer2 = Object.values(res.data.reduce((a, {orderEmail, orderName, orderTotal, orderAvatar}) => {
@@ -247,9 +243,7 @@ export default function DashboardMain() {
                     )
                 })}
             </div>
-            <DashboardLocation
-                order={order}
-            />
+           
             <div className="row flex">
                 <DashboardTopFive
                     icon = {faUser}
@@ -280,37 +274,16 @@ export default function DashboardMain() {
                     ]}
                 />
             </div>
-            <div className="row flex">
-                <DashboardChartPie
-                    email = {email}
-                    color = "pink"
-                />
-                <DashboardChart
-                    products = {products}
-                    order = {order}
-                    color = "lightblue"
-                />
-            </div>
-            <div className="row flex">
+          
+            <div className="row flex" style={{justifyContent: "center"}}>
                 <DashboardRecentReview
                     icon = {faStar}
                     title = "Recent Reviews"
                     color = "orange"
                     topRecentVote = {topRecentVote}
                 />
-                <DashboardTodoList // recent orders
-                    icon = {faTasks}
-                    title = "Todo list"
-                    color = "green"
-                />
             </div>
-            <div className="row flex">
-                <DashboardChartLine
-                    icon = {faTasks}
-                    order = {order}
-                    color = "pink"
-                />
-            </div>
+           
         </div>
     )
 }

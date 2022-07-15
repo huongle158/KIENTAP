@@ -4,14 +4,11 @@ import '../../../Styles/Dashboard.css'
 import DashboardHeader from './DashboardHeader'
 import DashboardMain from './Main/DashboardMain';
 import classNames from 'classnames'
-import DashboardInbox from './Inbox/DashboardInbox';
+
 import DashboardProduct from './Product/DashboardProduct';
-import DashboardNews from './News/DashboardNews';
 import DashboardProductEdit from './Product/DashboardProductEdit';
 import DashboardProductCreate from './Product/DashboardProductCreate';
 import Axios from 'axios';
-import DashboardNewsCreate from './News/DashboardNewsCreate';
-import DashboardNewsEdit from './News/DashboardNewsEdit';
 import DashboardUser from './User/DashboardUser';
 import DashboardUserCreate from './User/DashboardUserCreate';
 import DashboardUserEdit from './User/DashboardUserEdit';
@@ -31,7 +28,6 @@ export default function DashboardBody(props) {
     const [toast, setToast] = useState(false)
     const [isChange, setIsChange] = useState(false)
     const [product, setProduct] = useState({})
-    const [news, setNews] = useState({})
     const [user, setUser] = useState({})
     const [order, setOrder] = useState({})
     const [collection, setCollection] = useState({})
@@ -49,32 +45,27 @@ export default function DashboardBody(props) {
     }
     
     useEffect(()=> {
-        Axios.get(`http://pe.heromc.net:4000/products/${props.productId}`)
+        Axios.get(`http://localhost:5000/product/${props.productId}`)
             .then(res => {
                 setProduct(res.data)
             } 
         )
-        Axios.get(`http://pe.heromc.net:4000/news/${props.productId}`)
-            .then(res => {
-                setNews(res.data)
-            } 
-        )
-        Axios.get(`http://pe.heromc.net:4000/users/list/${props.productId}`)
+        Axios.get(`http://localhost:5000/user/list/${props.productId}`)
             .then(res => {
                 setUser(res.data)
             } 
         )
-        Axios.get(`http://pe.heromc.net:4000/order/${props.productId}`)
+        Axios.get(`http://localhost:5000/order/${props.productId}`)
             .then(res => {
                 setOrder(res.data)
             } 
         )
-        Axios.get(`http://pe.heromc.net:4000/collection/${props.productId}`)
+        Axios.get(`http://localhost:5000/collection/${props.productId}`)
             .then(res => {
                 setCollection(res.data)
             } 
         )
-        Axios.get(`http://pe.heromc.net:4000/email/${props.productId}`)
+        Axios.get(`http://localhost:5000/email/${props.productId}`)
             .then(res => {
                 setEmail(res.data)
             } 
@@ -120,19 +111,7 @@ export default function DashboardBody(props) {
                     product={product}
                 />
             }
-            { (props.openCreate && tabId === "5") &&
-                <DashboardNewsCreate
-                    setCloseCreateFunc={props.setCloseCreateFunc}
-                    setToastFunc={setToastFunc}
-                />
-            }
-            { (props.openEdit && tabId === "5") &&
-                <DashboardNewsEdit
-                    setCloseEditFunc={props.setCloseEditFunc}
-                    setToastFunc={setToastFunc}
-                    news={news} 
-                />
-            }
+          
             { (props.openCreate && tabId === "6") &&
                 <DashboardUserCreate
                     setCloseCreateFunc={props.setCloseCreateFunc}
@@ -147,27 +126,27 @@ export default function DashboardBody(props) {
                 />
             }
 
-            { (props.openCreate && tabId === "7") &&
+            { (props.openCreate && tabId === "2") &&
                 <DashboardCollectionCreate
                     setCloseCreateFunc={props.setCloseCreateFunc}
                     setToastFunc={setToastFunc}
                 />
             }
-            { (props.openEdit && tabId === "7") &&
+            { (props.openEdit && tabId === "2") &&
                 <DashboardCollectionEdit
                     setCloseEditFunc={props.setCloseEditFunc}
                     setToastFunc={setToastFunc}
-                    collection={collection} 
+                    
                 />
             }
 
-            { (props.openCreate && tabId === "8") &&
+            { (props.openCreate && tabId === "5") &&
                 <DashboardSubscriberCreate
                     setCloseCreateFunc={props.setCloseCreateFunc}
                     setToastFunc={setToastFunc}
                 />
             }
-            { (props.openEdit && tabId === "8") &&
+            { (props.openEdit && tabId === "5") &&
                 <DashboardSubscriberEdit
                     setCloseEditFunc={props.setCloseEditFunc}
                     setToastFunc={setToastFunc}
@@ -183,15 +162,7 @@ export default function DashboardBody(props) {
             {
                 tabId === "1" && <DashboardMain/>
             }
-            {
-                tabId === "2" && <DashboardInbox/>
-            }
-            {/* {
-                tabId === "2" && 
-                    <DashboardEmail
-                        email={email}
-                    />
-            } */}
+
             {
                 tabId === "3" && 
                 <DashboardOrder
@@ -210,15 +181,7 @@ export default function DashboardBody(props) {
                     isChange={isChange}
                 />
             }
-            {
-                tabId === "5" && 
-                <DashboardNews
-                    setOpenCreateFunc={props.setOpenCreateFunc}
-                    setOpenEditFunc={props.setOpenEditFunc}
-                    toast={toast}
-                    isChange={isChange}
-                />
-            }
+    
             {
                 tabId === "6" && 
                 <DashboardUser
@@ -229,16 +192,17 @@ export default function DashboardBody(props) {
                 />
             }
             {
-                tabId === "7" && 
+                tabId === "2" && 
                 <DashboardCollection
                     setOpenCreateFunc={props.setOpenCreateFunc}
                     setOpenEditFunc={props.setOpenEditFunc}
                     toast={toast}
                     isChange={isChange}
+                    collection={collection}
                 />
             }
             {
-                tabId === "8" && 
+                tabId === "5" && 
                 <DashboardSubscriber
                     setOpenCreateFunc={props.setOpenCreateFunc}
                     setOpenEditFunc={props.setOpenEditFunc}

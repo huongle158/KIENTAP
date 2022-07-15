@@ -28,10 +28,10 @@ export default function DashboardOrderCreate(props) {
 
     useEffect(()=>{
         if (chooseUser === false) {
-            axios.get(`http://pe.heromc.net:4000/vietnam`)
+            axios.get(`https://provinces.open-api.vn/api/?depth=2`)
                 .then(res => {
-                    setTinh(res.data[0].tinh)
-                    setHuyen(res.data[0].huyen)
+                    setTinh(res.data)
+                    setHuyen(res.data)
                     if (order) {
                         setOrderName(order.orderName)
                         setOrderEmail(order.orderEmail)
@@ -42,7 +42,7 @@ export default function DashboardOrderCreate(props) {
                         setOrderPaymentMethod(order.orderPaymentMethod)
                         if(typeof order.orderList !== "undefined") {
                             order.orderList.map((item)=>{
-                                axios.get(`http://pe.heromc.net:4000/products/${item.id}`)
+                                axios.get(``)
                                     .then(res => {
                                         res.data.count = item.amount
                                         setProductList(productList => [...productList, res.data])
@@ -68,12 +68,12 @@ export default function DashboardOrderCreate(props) {
                 }
             )
         } 
-        axios.get(`http://pe.heromc.net:4000/products`)
+        axios.get(`http://localhost:5000/product`)
             .then(res => {
                 setProduct(res.data)
             }
         )
-        axios.get(`http://pe.heromc.net:4000/users/list`)
+        axios.get(`http://localhost:5000/user/list`)
             .then(res => {
                 setUserList(res.data)
                 res.data.filter((item)=>{
@@ -100,7 +100,7 @@ export default function DashboardOrderCreate(props) {
                 })
             }
         )
-    },[order, user])
+    },[order,product])
 
     const onSubmit = (event) => {
         event.preventDefault()
@@ -114,7 +114,7 @@ export default function DashboardOrderCreate(props) {
             total += productList[i].productFinalPrice * productList[i].count
             listOrder.push(data)
         }
-        axios.post(`http://pe.heromc.net:4000/order/update/${order._id}`, {
+        axios.post(`http://localhost:5000/order/update/${order._id}`, {
             orderName: orderName,
             orderEmail: orderEmail,
             orderPhone: orderPhone,
@@ -131,6 +131,7 @@ export default function DashboardOrderCreate(props) {
         })
     }
 
+ 
     return (
         <div className="DashboardProductInfo">
             <div className="create-box"> 
@@ -164,8 +165,8 @@ export default function DashboardOrderCreate(props) {
                                         return (
                                             <option
                                                 key={index}
-                                                value={item.userEmail}
-                                            >{item.userEmail}</option>
+                                                value={item.email}
+                                            >{item.email}</option>
                                         )
                                     })
                                 }
@@ -189,7 +190,7 @@ export default function DashboardOrderCreate(props) {
                         <div className="dashboard-right">
                             <input 
                                 type="text" name="email" 
-                                value={orderEmail || ""}
+                                value={ orderEmail || "" }
                                 onChange={(event)=>{
                                     setOrderEmail(event.target.value)
                                 }} required
@@ -201,7 +202,7 @@ export default function DashboardOrderCreate(props) {
                         <div className="dashboard-right">
                             <input 
                                 type="text" name="phone" 
-                                value={orderPhone || ""}
+                                value={orderPhone ||""}
                                 onChange={(event)=>{
                                     setOrderPhone(event.target.value)
                                 }} required
@@ -211,12 +212,14 @@ export default function DashboardOrderCreate(props) {
                     <div className="create-box-row flex">
                         <div className="dashboard-left flex">Province</div>
                         <div className="dashboard-right">
-                            <select 
+                        <select 
                                 className="input"
                                 value={orderProvince}
                                 onChange={(event)=>{
                                     setProvinceId(event.target.selectedIndex)
                                     setOrderProvince(event.target.value)
+                                    
+                                   
                                 }}
                                 >
                                 <option disabled selected value>select a province</option>
@@ -234,25 +237,13 @@ export default function DashboardOrderCreate(props) {
                     <div className="create-box-row flex">
                         <div className="dashboard-left flex">District</div>
                         <div className="dashboard-right">
-                            <select 
-                                className="input"
-                                value={orderDistric}
+                        <input 
+                                type="text" name="phone" 
+                                value={orderDistric ||""}
                                 onChange={(event)=>{
                                     setOrderDistric(event.target.value)
-                                }}
-                            >
-                                <option disabled selected value>select a district</option>
-                                {huyen.map((item, index) => {
-                                    if (item.tinh_id === provinceId) {
-                                        return (
-                                            <option
-                                                key={index}
-                                                value={item.name}
-                                            >{item.name}</option>
-                                        )
-                                    }
-                                })}
-                            </select>
+                                }} required
+                                ></input>
                         </div>
                     </div>
             
@@ -263,7 +254,7 @@ export default function DashboardOrderCreate(props) {
                                 type="text" name="phone" 
                                 value={orderAddress || ""}
                                 onChange={(event)=>{
-                                    setOrderAddress(event.target.value)
+                                      setOrderProvince(event.target.value)
                                 }} required
                                 ></input>
                         </div>
@@ -309,76 +300,12 @@ export default function DashboardOrderCreate(props) {
                                     return (
                                         <option
                                             key={index}
-                                            value={JSON.stringify(item)}
-                                        >Name: {item.productName}, Price: {item.productFinalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</option>
+                                         
+                                        >Name: {item.productName}, Price: {item.productPrice}</option>
                                     )
                                 })}
                             </select>
-                            <div className="" style={{ overflowY: 'hidden', flexWrap:'wrap'}}>
-                                { productList && 
-                                    productList.map((item, index) => {
-                                        return (
-                                            <div 
-                                                key={index}
-                                                className="order-list-item"
-                                            >
-                                                <img src={item.productImg[0]} alt=""></img>
-                                                <p style={{width: '55%'}}>{item.productName}</p>
-                                                <div style={{display: 'flex', alignItems: 'center'}}>
-                                                    <p 
-                                                        id={index}
-                                                        className="count-btn flex-center"
-                                                        onClick={(event)=>{
-                                                            const arr = [...productList]
-                                                            const id = event.target.id;
-                                                            for (let i in arr) {
-                                                                if (id === i) {
-                                                                    if (arr[i].count === 0) {
-                                                                        return
-                                                                    } else {
-                                                                        arr[i].count -= 1
-                                                                    }
-                                                                }
-                                                            }
-                                                            setProductList(arr)
-                                                        }}
-                                                    >-</p>
-                                                    <p>{item.count}</p>
-                                                    <p 
-                                                        id={index}
-                                                        className="count-btn flex-center"
-                                                        onClick={(event)=>{
-                                                            const arr = [...productList]
-                                                            const id = event.target.id;
-                                                            for (let i in arr) {
-                                                                if (id === i) {
-                                                                    arr[i].count += 1
-                                                                }
-                                                            }
-                                                            setProductList(arr)
-                                                        }}
-                                                    >+</p>
-                                                </div>
-                                                <div 
-                                                    id={index}
-                                                    className="delete-order-item flex-center"
-                                                    onClick={(event)=>{
-                                                        var arr = [];
-                                                        const id = event.target.id;
-                                                        for (let i in productList) {
-                                                            if (i !== id) {
-                                                                arr.push(productList[i])
-                                                            }
-                                                        }
-                                                        setProductList(arr)
-                                                    }}>
-                                                    <FontAwesomeIcon style={{pointerEvents: 'none'}} icon={faTimes}/>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
+                         
                         </div>
                     </div>
                     <div className="create-box-row flex">
@@ -401,7 +328,7 @@ export default function DashboardOrderCreate(props) {
                     </div>
                     <div className="flex-center" style={{marginTop: '40px'}}>
                         <button className="create-box-btn btn">
-                            Create order
+                            Edit order
                         </button>
                     </div>
                 </form>
