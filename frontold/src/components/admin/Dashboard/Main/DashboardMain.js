@@ -3,14 +3,10 @@ import '../../../../App.css'
 import '../../../../Styles/Dashboard.css'
 import { faFileInvoice, faMoneyBillWave, faStar, faTasks, faTshirt, faUser } from '@fortawesome/free-solid-svg-icons'
 import DashboardTotalCount from './DashboardTotalCount'
-import DashboardLocation from './DashboardLocation'
 import DashboardTopFive from './DashboardTopFive'
 import DashboardRecentReview from './DashboardRecentReview'
 import axios from 'axios'
-import DashboardChart from './DashboardChart'
-import DashboardTodoList from './DashboardTodoList'
-import DashboardChartPie from './DashboardChartPie'
-import DashboardChartLine from './DashboardChartLine'
+
 
 export default function DashboardMain() {
 
@@ -24,14 +20,14 @@ export default function DashboardMain() {
     const [totalSale, setTotalSale] = useState(0);
     const [orderMonthPercent, setOrderMonthPercent] = useState({})
     const [saleMonthPercent, setSaleMonthPercent] = useState({})
-    const [incomeMonthPercent, setIncomeMonthPercent] = useState({}) 
+    const [incomeMonthPercent, setIncomeMonthPercent] = useState({})
 
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(`http://localhost:5000/product`)
             .then(res => {
                 setProducts(res.data)
                 let virtualProducts = [...res.data]
-                virtualProducts.sort((a,b) =>  b.productSold - a.productSold)
+                virtualProducts.sort((a, b) => b.productSold - a.productSold)
                 let virtualProducts2 = []
                 for (let i in virtualProducts) {
                     let data = {
@@ -42,38 +38,38 @@ export default function DashboardMain() {
                 }
                 setTopProductSales(virtualProducts2)
             }
-        )
+            )
         axios.get(`http://localhost:5000/user/list`)
             .then(res => {
                 setUser(res.data)
             }
-        ) 
+            )
         axios.get(`http://localhost:5000/email`)
             .then(res => {
                 setEmail(res.data)
             }
-        ) 
+            )
         axios.get(`http://localhost:5000/order`)
             .then(res => {
                 setOrder(res.data)
-                const topCustomer2 = Object.values(res.data.reduce((a, {orderEmail, orderName, orderTotal, orderAvatar}) => {
-                    a[orderEmail] = a[orderEmail] || {orderEmail, orderName, orderAvatar, orderTotal, count: 0};
+                const topCustomer2 = Object.values(res.data.reduce((a, { orderEmail, orderName, orderTotal, orderAvatar }) => {
+                    a[orderEmail] = a[orderEmail] || { orderEmail, orderName, orderAvatar, orderTotal, count: 0 };
                     a[orderEmail].count++;
                     return a;
                 }, Object.create(null)));
-                topCustomer2.sort((a,b) =>  b.count - a.count)
+                topCustomer2.sort((a, b) => b.count - a.count)
                 setTopCusomer(topCustomer2)
 
                 var totalIncome = 0;
                 var totalSale = 0;
-                for(let i in res.data) {
-                    for(let j in res.data[i].orderList) {
+                for (let i in res.data) {
+                    for (let j in res.data[i].orderList) {
                         totalSale += res.data[i].orderList[j].amount
                     }
                     totalIncome += res.data[i].orderTotal
                 }
                 setTotalSale(totalSale)
-                setTotalIncome(totalIncome) 
+                setTotalIncome(totalIncome)
 
                 const currentMonth = new Date().getMonth() + 1
                 const currentYear = new Date().getFullYear()
@@ -93,64 +89,64 @@ export default function DashboardMain() {
                 let lastCurrentTotalIncome = 0;
                 let lastCurrentTotalSale = 0;
                 for (let i in res.data) {
-                    if (new Date(res.data[i].orderDate).getMonth()+1 === currentMonth &&
+                    if (new Date(res.data[i].orderDate).getMonth() + 1 === currentMonth &&
                         new Date(res.data[i].orderDate).getFullYear() === currentYear) {
-                        currentOrder.push(res.data[i]) 
+                        currentOrder.push(res.data[i])
                         currentTotalIncome += res.data[i].orderTotal
-                    } 
-                    if (new Date(res.data[i].orderDate).getMonth()+1 === lastMonth &&
+                    }
+                    if (new Date(res.data[i].orderDate).getMonth() + 1 === lastMonth &&
                         new Date(res.data[i].orderDate).getFullYear() === lastYear) {
-                        lastMonthOrder.push(res.data[i]) 
+                        lastMonthOrder.push(res.data[i])
                         lastCurrentTotalIncome += res.data[i].orderTotal
                     }
-                    for(let j in res.data[i].orderList) {
-                        if (new Date(res.data[i].orderDate).getMonth()+1 === currentMonth &&
-                            new Date(res.data[i].orderDate).getFullYear() === currentYear) { 
-                            currentTotalSale += res.data[i].orderList[j].amount 
-                        } 
-                        if (new Date(res.data[i].orderDate).getMonth()+1 === lastMonth &&
-                            new Date(res.data[i].orderDate).getFullYear() === lastYear) { 
-                            lastCurrentTotalSale += res.data[i].orderList[j].amount 
+                    for (let j in res.data[i].orderList) {
+                        if (new Date(res.data[i].orderDate).getMonth() + 1 === currentMonth &&
+                            new Date(res.data[i].orderDate).getFullYear() === currentYear) {
+                            currentTotalSale += res.data[i].orderList[j].amount
+                        }
+                        if (new Date(res.data[i].orderDate).getMonth() + 1 === lastMonth &&
+                            new Date(res.data[i].orderDate).getFullYear() === lastYear) {
+                            lastCurrentTotalSale += res.data[i].orderList[j].amount
                         }
                     }
-                }   
+                }
 
                 if (currentOrder.length >= lastMonthOrder.length) {
                     setOrderMonthPercent({
-                        percent: Math.ceil(((currentOrder.length - lastMonthOrder.length)/lastMonthOrder.length) * 100),
+                        percent: Math.ceil(((currentOrder.length - lastMonthOrder.length) / lastMonthOrder.length) * 100),
                         isDecrease: true
                     })
-                } else { 
+                } else {
                     setOrderMonthPercent({
-                        percent: Math.ceil(((lastMonthOrder.length - currentOrder.length)/lastMonthOrder.length) * 100),
+                        percent: Math.ceil(((lastMonthOrder.length - currentOrder.length) / lastMonthOrder.length) * 100),
                         isDecrease: false
                     })
                 }
                 if (currentTotalSale >= lastCurrentTotalSale) {
                     setSaleMonthPercent({
-                        percent: Math.ceil(((currentTotalSale - lastCurrentTotalSale)/lastCurrentTotalSale) * 100),
+                        percent: Math.ceil(((currentTotalSale - lastCurrentTotalSale) / lastCurrentTotalSale) * 100),
                         isDecrease: true
                     })
-                } else { 
+                } else {
                     setSaleMonthPercent({
-                        percent: Math.ceil(((lastCurrentTotalSale - currentTotalSale)/lastCurrentTotalSale) * 100),
+                        percent: Math.ceil(((lastCurrentTotalSale - currentTotalSale) / lastCurrentTotalSale) * 100),
                         isDecrease: false
                     })
                 }
                 if (currentTotalIncome >= lastCurrentTotalIncome) {
                     setIncomeMonthPercent({
-                        percent: Math.ceil(((currentTotalIncome - lastCurrentTotalIncome)/lastCurrentTotalIncome) * 100),
+                        percent: Math.ceil(((currentTotalIncome - lastCurrentTotalIncome) / lastCurrentTotalIncome) * 100),
                         isDecrease: true
                     })
-                } else { 
+                } else {
                     setIncomeMonthPercent({
-                        percent: Math.ceil(((lastCurrentTotalIncome - currentTotalIncome)/lastCurrentTotalIncome) * 100),
+                        percent: Math.ceil(((lastCurrentTotalIncome - currentTotalIncome) / lastCurrentTotalIncome) * 100),
                         isDecrease: false
                     })
                 }
             }
-        ) 
-    }, []) 
+            )
+    }, [])
 
     const totalCount = [
         {
@@ -211,7 +207,7 @@ export default function DashboardMain() {
                     productVote[j].ratingMinutes = minutes;
                 } else {
                     let days = newRatingDate.getDate().toString();
-                    let months = (newRatingDate.getMonth()+1).toString();
+                    let months = (newRatingDate.getMonth() + 1).toString();
                     if (days < 10) {
                         days = "0" + days
                     }
@@ -228,35 +224,33 @@ export default function DashboardMain() {
     }
 
     if (recentVote) {
-        recentVote.sort(function(a,b){
+        recentVote.sort(function (a, b) {
             return new Date(b.ratingDate) - new Date(a.ratingDate);
         });
     }
 
-    const topRecentVote = recentVote.splice(0,5)
-    
+    const topRecentVote = recentVote.splice(0, 5)
+
     return (
         <div className="dashboard-main">
             <div className="row flex">
-                { totalCount.map((item, index)=> { 
+                {totalCount.map((item, index) => {
                     return (
                         <DashboardTotalCount
-                            key = {index}
-                            item = {item}
+                            key={index}
+                            item={item}
                         />
                     )
                 })}
             </div>
-            <DashboardLocation
-                order={order}
-            />
+
             <div className="row flex">
                 <DashboardTopFive
-                    icon = {faUser}
-                    title = "Top customers by orders"
-                    color = "lightblue"
-                    data = {topCustomer}
-                    table = {[
+                    icon={faUser}
+                    title="Top customers by orders"
+                    color="lightblue"
+                    data={topCustomer}
+                    table={[
                         {
                             title: 'User name'
                         },
@@ -266,11 +260,11 @@ export default function DashboardMain() {
                     ]}
                 />
                 <DashboardTopFive
-                    icon = {faTshirt}
-                    title = "Top products by selling"
-                    color = "pink"
-                    data = {topProductSales}
-                    table = {[
+                    icon={faTshirt}
+                    title="Top products by selling"
+                    color="pink"
+                    data={topProductSales}
+                    table={[
                         {
                             title: 'Product name'
                         },
@@ -280,37 +274,16 @@ export default function DashboardMain() {
                     ]}
                 />
             </div>
-            <div className="row flex">
-                <DashboardChartPie
-                    email = {email}
-                    color = "pink"
-                />
-                <DashboardChart
-                    products = {products}
-                    order = {order}
-                    color = "lightblue"
-                />
-            </div>
-            <div className="row flex">
+
+            <div className="row flex" style={{ justifyContent: "center" }}>
                 <DashboardRecentReview
-                    icon = {faStar}
-                    title = "Recent Reviews"
-                    color = "orange"
-                    topRecentVote = {topRecentVote}
-                />
-                <DashboardTodoList // recent orders
-                    icon = {faTasks}
-                    title = "Todo list"
-                    color = "green"
+                    icon={faStar}
+                    title="Recent Reviews"
+                    color="orange"
+                    topRecentVote={topRecentVote}
                 />
             </div>
-            <div className="row flex">
-                <DashboardChartLine
-                    icon = {faTasks}
-                    order = {order}
-                    color = "pink"
-                />
-            </div>
+
         </div>
     )
 }

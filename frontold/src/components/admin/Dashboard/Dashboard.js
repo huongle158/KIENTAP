@@ -8,7 +8,9 @@ import { faEnvelope, faFileInvoice, faHome, faInbox, faNewspaper, faShoppingBag,
 import socketIOClient from "socket.io-client"
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom'
-const ENDPOINT = "http://pe.heromc.net:4000";
+// const ENDPOINT = "http://pe.heromc.net:4000";
+const ENDPOINT = "http://localhost:5000";
+
 
 function Dashboard(props) {
     const menuItems = [
@@ -75,6 +77,7 @@ function Dashboard(props) {
                 headers: { "token": `Bearer ${localStorage.getItem('token')}` }
             })
                 .then(res => {
+                    // console.log(res.data)
                     setUserInfo(res.data)
                     const userInfo = res.data;
                     if (userInfo.admin === true) {

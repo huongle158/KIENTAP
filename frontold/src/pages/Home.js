@@ -12,6 +12,7 @@ import axios from 'axios';
 
 function Home() {
     const [collection, setCollection] = useState([]);
+    
     useEffect(()=>{
         axios.get(`http://localhost:5000/collection`)
             .then(res => {
@@ -33,7 +34,7 @@ function Home() {
             <Collection
                 collection = {collection}
             />
-            <FashionNews/>
+            {/* <FashionNews/> */}
             <Newsletter/>
             <Footer/>
         </div>
