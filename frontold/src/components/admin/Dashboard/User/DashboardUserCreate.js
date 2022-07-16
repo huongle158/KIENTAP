@@ -11,7 +11,7 @@ export default function DashboardUserCreate(props) {
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [userRole, setUserRole] = useState("")
-
+    
     const onSubmit = (event) => {
         event.preventDefault()
         const config = {
@@ -26,7 +26,7 @@ export default function DashboardUserCreate(props) {
         formData.append("userPassword", userPassword);
         formData.append("userRole", userRole);
         
-        axios.post('http://pe.heromc.net:4000/users/register', formData, config)
+        axios.post('', formData, config)
         props.setCloseCreateFunc(false);
         props.setToastFunc(true);
     }

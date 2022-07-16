@@ -8,9 +8,13 @@ import { faEnvelope, faFileInvoice, faHome, faInbox, faNewspaper, faShoppingBag,
 import socketIOClient from "socket.io-client"
 import Axios from 'axios'
 import { withRouter } from 'react-router-dom'
+<<<<<<< HEAD
 // const ENDPOINT = "http://pe.heromc.net:4000";
 const ENDPOINT = "http://localhost:5000";
 
+=======
+const ENDPOINT = "http://localhost:5000";
+>>>>>>> 3b2b7bb87188cb21be8466972522cd999b126b14
 
 function Dashboard(props) {
     const menuItems = [
@@ -19,16 +23,6 @@ function Dashboard(props) {
             name: "Dashboard",
             icon: faHome
         },
-        {
-            id: "2",
-            name: "Live Chat",
-            icon: faInbox
-        },
-        // {
-        //     id: "3",
-        //     name: "Email",
-        //     icon: faEnvelope
-        // },
         {
             id: "3",
             name: "Orders",
@@ -39,23 +33,19 @@ function Dashboard(props) {
             name: "Products",
             icon: faTshirt
         },
-        {
-            id: "5",
-            name: "News",
-            icon: faNewspaper
-        },
+      
         {
             id: "6",
             name: "Users",
             icon: faUser
         },
         {
-            id: "7",
+            id: "2",
             name: "Collection",
             icon: faShoppingBag
         },
         {
-            id: "8",
+            id: "5",
             name: "Subscribers",
             icon: faEnvelope
         },

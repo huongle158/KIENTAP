@@ -33,7 +33,6 @@ module.exports.updateCollection = function(req, res) {
     var id = req.params.id;
 
     const imgArr = [];
-    // if (req.files.length > 0) {
     req.files.map((item) => {
         imgArr.push(`http://localhost:5000/${item.orginalname}`)
     })
@@ -41,10 +40,8 @@ module.exports.updateCollection = function(req, res) {
         collectionBanner: imgArr[0]
     }
     Collection.findByIdAndUpdate({ _id: id }, { $set: img },
-            function(error) {}
-        )
-        // }
-
+        function(error) {}
+    )
     const data = {
         collectionName: req.body.collectionName,
         collectionItems: JSON.parse(req.body.productList)

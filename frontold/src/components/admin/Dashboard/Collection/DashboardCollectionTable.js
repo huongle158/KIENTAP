@@ -99,7 +99,7 @@ export default function DashboardCollectionTable(props) {
     }
 
     const deleteOnClick = (event) => {
-        axios.post(`http://pe.heromc.net:4000/collection/delete/:${event.target.id}`, {
+        axios.post(`${event.target.id}`, {
             id: event.target.id
         })
         setCollection(collection.filter((item)=>{
@@ -221,14 +221,15 @@ export default function DashboardCollectionTable(props) {
                                                     className="table-input"
                                                     style={{height: '30px', width: '80%'}}
                                                 > 
-                                                    {
+                                                    {item.collectionItems ?
                                                         item.collectionItems.map((item, index)=>{
                                                             return (
+
                                                                 <option key={index}>
                                                                     {item.productName}
                                                                 </option>
                                                             )
-                                                        })
+                                                        }): <span>Loading...</span>
                                                     } 
                                                 </select>
                                             </td>

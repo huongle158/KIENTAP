@@ -35,8 +35,7 @@ export default function DashboardCollectionCreate(props) {
         });
         formData.append("collectionName", collectionName);
         formData.append('collectionItems', collectionItems);
-        // axios.post('http://pe.heromc.net:4000/collection', formData, config)
-        axios.post('http://pe.heromc.net:4000/collection', formData, config)
+        axios.post('http://localhost:5000/collection', formData, config)
         .then(()=>{
             props.setCloseCreateFunc(false);
             props.setToastFunc(true);
@@ -54,7 +53,7 @@ export default function DashboardCollectionCreate(props) {
     }
 
     useEffect(()=>{
-        axios.get(`http://pe.heromc.net:4000/products`)
+        axios.get(`http://localhost:5000/product`)
             .then(res => {
                 setProduct(res.data)
             }
@@ -175,7 +174,7 @@ export default function DashboardCollectionCreate(props) {
                                         <option
                                             key={index}
                                             value={JSON.stringify(item)}
-                                        >Name: {item.productName}, Price: {item.productFinalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} đ</option>
+                                        >Name: {item.productName}, Price: {item.productPrice} đ</option>
                                     )
                                 })}
                             </select>

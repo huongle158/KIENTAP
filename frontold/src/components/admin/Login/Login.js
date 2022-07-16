@@ -48,6 +48,7 @@ function Login(props) {
                 
             })
             .catch(err => {
+                console.log(err.response.data)
                 setArrErr([err.response.data]);
                 setArrSuccess([])
             })

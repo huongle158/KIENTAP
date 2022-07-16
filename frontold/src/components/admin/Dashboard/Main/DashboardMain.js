@@ -22,7 +22,7 @@ export default function DashboardMain() {
     const [saleMonthPercent, setSaleMonthPercent] = useState({})
     const [incomeMonthPercent, setIncomeMonthPercent] = useState({})
 
-    useEffect(() => {
+    useEffect(()=>{
         axios.get(`http://localhost:5000/product`)
             .then(res => {
                 setProducts(res.data)
@@ -38,17 +38,17 @@ export default function DashboardMain() {
                 }
                 setTopProductSales(virtualProducts2)
             }
-            )
+        )
         axios.get(`http://localhost:5000/user/list`)
             .then(res => {
                 setUser(res.data)
             }
-            )
+        ) 
         axios.get(`http://localhost:5000/email`)
             .then(res => {
                 setEmail(res.data)
             }
-            )
+        ) 
         axios.get(`http://localhost:5000/order`)
             .then(res => {
                 setOrder(res.data)
@@ -243,7 +243,7 @@ export default function DashboardMain() {
                     )
                 })}
             </div>
-
+           
             <div className="row flex">
                 <DashboardTopFive
                     icon={faUser}
@@ -274,16 +274,16 @@ export default function DashboardMain() {
                     ]}
                 />
             </div>
-
-            <div className="row flex" style={{ justifyContent: "center" }}>
+          
+            <div className="row flex" style={{justifyContent: "center"}}>
                 <DashboardRecentReview
-                    icon={faStar}
-                    title="Recent Reviews"
-                    color="orange"
-                    topRecentVote={topRecentVote}
+                    icon = {faStar}
+                    title = "Recent Reviews"
+                    color = "orange"
+                    topRecentVote = {topRecentVote}
                 />
             </div>
-
+           
         </div>
     )
 }

@@ -54,7 +54,7 @@ export default function DashboardProductCreate(props) {
     }
     
     useEffect(()=> {
-        axios.get(`http://pe.heromc.net:4000/products`)
+        axios.get(`http://localhost:5000/product`)
             .then(res => {
                 const test = Object.values(res.data.reduce((a, {productGroupCate}) => {
                     a[productGroupCate] = a[productGroupCate] || {productGroupCate};
@@ -63,10 +63,6 @@ export default function DashboardProductCreate(props) {
                 setProductGroupCateList(test)
             }
         )
-        axios.get(`http://pe.heromc.net:4000/category`)
-            .then(res => {
-                setCate(res.data)
-            }) 
     },[])
 
     const onSubmit = (event) => {
@@ -93,7 +89,7 @@ export default function DashboardProductCreate(props) {
         formData.append("productDes", inputValue.des);
         formData.append("productSex", sex);
         formData.append("productDate", new Date());
-        axios.post('http://pe.heromc.net:4000/products', formData, config)
+        axios.post('http://localhost:5000/product', formData, config)
         .then(()=>{
             props.setCloseCreateFunc(false);
             props.setToastFunc(true);
@@ -101,9 +97,6 @@ export default function DashboardProductCreate(props) {
     }
 
     const addNewCate = () => {
-        axios.post('http://pe.heromc.net:4000/category', {
-            cateName: inputValue.cate
-        })
         setCate(cate=>[...cate, {cateName: inputValue.cate}])
         setCateValue(inputValue.cate)
         cateInput.current.value = ""

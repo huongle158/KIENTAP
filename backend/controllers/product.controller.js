@@ -1,8 +1,8 @@
 var Product = require("../models/product.model.js");
-// var Email = require("../models/email.model");
 var multer = require('multer');
 var nodemailer = require('nodemailer');
-
+var Email = require('../models/email.model');
+var mongoose = require('mongoose');
 
 // Login with admin email
 var transporter = nodemailer.createTransport({
@@ -16,7 +16,7 @@ transporter.verify(function (error, success) {
 	if (error) {
 		console.log(error);
 	} else {
-		// console.log('Kết nối thành công!');
+		console.log('Email connected!');
 	}
 });
 
@@ -35,7 +35,7 @@ module.exports.product = function (req, res) {
 module.exports.postProduct = async function (req, res) {
 	const imgArr = [];
 	req.files.map((item) => {
-		imgArr.push(`http://localhost:5000/${item.orginalname}`)
+		imgArr.push(`http://localhost:5000/images/${item.originalname}`)
 	})
 	const data = {
 		productName: req.body.productName,
@@ -54,40 +54,40 @@ module.exports.postProduct = async function (req, res) {
 	await Product.create(data)
 
 	// Tạo sản phẩm mới xong sẽ được gửi mail tới các subscriberEmail
-	// var emailList = await Email.find()
+	var emailList = await Email.find()
 
-	// for (let i in emailList) {
+	for (let i in emailList) {
 
-	// 	Email.findOne({ _id: emailList[i]._id })
-	// 		.updateOne({$push: { 
-	// 			sendedEmail: {
-	// 				emailId: new mongoose.mongo.ObjectId(),
-	// 				isSeen: false
-	// 			}
-	// 		}})
-	// 		.exec()
+		Email.findOne({ _id: emailList[i]._id })
+			.updateOne({$push: { 
+				sendedEmail: {
+					emailId: new mongoose.mongo.ObjectId(),
+					isSeen: false
+				}
+			}})
+			.exec()
 
 
-	// 	var emailInfo = await Email.findById(emailList[i]._id)
+		var emailInfo = await Email.findById(emailList[i]._id)
 
-	// 	var mailOptions = {
-	// 		from: 'ytn194062@st.uel.edu.vn',
-	// 		to: emailList[i].subscriberEmail,
-	// 		subject: 'HOT!!! Sản phẩm mới tại SOBER SHOP',
-	// 		html: '<p>Sản phẩm mới nè</p>' +
-	// 		`<img src="http://pe.heromc.net:4000/email/${emailList[i]._id}/${emailInfo.sendedEmail[emailInfo.sendedEmail.length - 1].emailId}" alt=""></img>`
-	// 	}
+		var mailOptions = {
+			from: 'SOBER SHOP',
+			to: emailList[i].subscriberEmail,
+			subject: 'HOT!!! Sản phẩm mới tại SOBER SHOP',
+			html: '<h4>Chúng tôi vừa ra mắt sản phẩm mới phù hợp với bạn. Xem ngay!</h4>' +
+			`<img src="${imgArr[0]}" alt=""></img>`
+		}
 
-	// 	transporter.sendMail(mailOptions, function(error, info){
-	// 	    if (error) {
-	// 	      console.log(error);
-	// 	    } else {
-	// 	      console.log('Email sent: ' + info.response);
-	// 	    }
-	// 	})
-	// }
+		transporter.sendMail(mailOptions, function(error, info){
+		    if (error) {
+		      console.log(error);
+		    } else {
+		      console.log('Email sent: ' + info.response);
+		    }
+		})
+	}
 
-	res.status(200).send("ok");
+	res.status(200).send(data);
 }
 
 module.exports.updateProduct = async function (req, res) {
