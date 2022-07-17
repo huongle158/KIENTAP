@@ -8,7 +8,7 @@ function CollectionItem(props) {
 
     const redirect = () => {
         window.scrollTo(0,0);
-        props.history.push(`/product/${props.product._id}`)
+        props.history.push(`/products/${props.product._id}`)
     }  
 
     return (
@@ -39,7 +39,7 @@ function CollectionItem(props) {
                         }
                         <div 
                             onClick={redirect}
-                            className={hoverPrice ? "addtocart-btn-collection price-transform addtocart-btn-collectio-hover" : "addtocart-btn-collection"}
+                            className={hoverPrice ? "addtocart-btn-collection price-transform addtocart-btn-collection-hover" : "addtocart-btn-collection"}
                         >
                             ADD TO CART
                         </div>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes , faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios'
+import Axios from 'axios'
 import {
     withRouter
 } from 'react-router-dom'
@@ -10,10 +10,10 @@ import {
 import { UserContext } from '../../contexts/User'
 import AccountInfo from './AccountInfo'
 
+import isEmpty from "validator/lib/isEmpty"
+
 function Account(props) {
-    const { 
-        setUserInfoFunc 
-    } = useContext(UserContext);
+    const { setUserInfoFunc } = useContext(UserContext);
 
     const [check, setCheck] = useState(false);
     const [tabID, setTabID] = useState(0);
@@ -21,19 +21,36 @@ function Account(props) {
     const [arrErr, setArrErr] = useState([]);
     const [user, setUser] = useState({});
     const [login, setLogin] = useState(false);
+    const [ validationMsg, setValidationMsg] = useState('');
+const validateAll = () => {
+    const msg = {}
+    if (isEmpty(loginEmail)) {
+        msg.email = "Please input your email "
+    }
+    else if (isEmpty(loginPassword)) {
+        msg.password = "Please input your password "
+    }
+    setValidationMsg(msg)
+    if(Object.keys(msg).length > 0) return false 
+    return true 
+}
 
     const handleOnChange = (event) => {
         setUser({...user , [event.target.name]: event.target.value})
     }
 
     const handleOnSubmit = (event) => {
+        const isValid = validateAll()
+   
         event.preventDefault();
-        if (tabID === 0) {
-            axios.post('http://localhost:5000/user/login', {
-                email: user.email,
-                password: user.password
+        if (tabID === 0 && !isValid) {
+            Axios.post('http://localhost:5000/user/login', {
+                
+                email: user.loginEmail,
+                password: user.loginPassword
             }) 
             .then(res => {
+                
                 setArrSuccess(arrSuccess=>[...arrSuccess, "Login success!"])
                 setTimeout(()=> {
                     window.location.reload(false);
@@ -46,7 +63,7 @@ function Account(props) {
                 setArrErr(arrErr=>[...arrErr, err.response.data]);
             })
         } else {
-            axios.post('http://pe.heromc.net:4000/users/register', {
+            Axios.post('http://localhost:5000/user/register', {
                 userName: user.registerName,
                 userEmail: user.registerEmail,
                 userPassword: user.registerPassword,
@@ -60,13 +77,14 @@ function Account(props) {
                 }, 1000)
             })
             .catch(err => {
+               
                 setArrErr(arrErr=>[...arrErr, err.response.data]);
             })
         }
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
+        Axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
             headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
         })
         .then(res => {
@@ -107,10 +125,12 @@ function Account(props) {
                 </div >
                 
                 {login === true && 
+            
                     <AccountInfo/>
                 }
                 
                 {login === false && 
+                
                 <div className={props.accountOpen === false ? '' : 'fadeIn'}>
                     <div 
                         className='search-tab login-tab flex'>
@@ -161,7 +181,9 @@ function Account(props) {
                         <div className="search-form login-form fadeToRight">
                             <form className="flex-col" onSubmit={handleOnSubmit}>
                                 <input type="email" placeholder="Email" name="loginEmail" onChange={handleOnChange}/>
+                                <p className="text-red-400 text-xs italic">{validationMsg.email}</p>
                                 <input type="password" placeholder="Password" name="loginPassword" onChange={handleOnChange}/>
+                                <p className="text-red-400 text-xs italic">{validationMsg.password}</p>
                                 <div className="remember-login flex noselect" 
                                     onClick={() => { 
                                         if (check) {
@@ -189,7 +211,9 @@ function Account(props) {
                             <form className="flex-col" onSubmit={handleOnSubmit}>
                                 <input type="text" placeholder="Name" name="registerName" onChange={handleOnChange}/>
                                 <input type="email" placeholder="Email" name="registerEmail" onChange={handleOnChange}/>
+                                <p className="text-red-400 text-xs italic">{validationMsg.email}</p>
                                 <input type="password" placeholder="Password" name="registerPassword" onChange={handleOnChange}/>
+                                <p className="text-red-400 text-xs italic">{validationMsg.password}</p>
                                 <button className="btn">REGISTER</button>
                             </form>
                         </div>
