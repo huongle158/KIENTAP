@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/KIENTAP/static/css/main.a1a8c694.css",
-    "main.js": "/KIENTAP/static/js/main.3ad528e0.js",
+    "main.js": "/KIENTAP/static/js/main.6ee586ee.js",
     "static/media/women-dropdown2.jpg": "/KIENTAP/static/media/women-dropdown2.1381f7eb0d8f93ca3d67.jpg",
     "static/media/men-dropdown3.jpg": "/KIENTAP/static/media/men-dropdown3.24c1597116a5cfc4f65b.jpg",
     "static/media/women-dropdown.jpg": "/KIENTAP/static/media/women-dropdown.f5ac364ef757a530216d.jpg",
@@ -26,10 +26,10 @@
     "static/media/slick.woff": "/KIENTAP/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/KIENTAP/index.html",
     "main.a1a8c694.css.map": "/KIENTAP/static/css/main.a1a8c694.css.map",
-    "main.3ad528e0.js.map": "/KIENTAP/static/js/main.3ad528e0.js.map"
+    "main.6ee586ee.js.map": "/KIENTAP/static/js/main.6ee586ee.js.map"
   },
   "entrypoints": [
     "static/css/main.a1a8c694.css",
-    "static/js/main.3ad528e0.js"
+    "static/js/main.6ee586ee.js"
   ]
 }
