@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes , faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios'
+import Axios from 'axios'
 import {
     withRouter
 } from 'react-router-dom'
@@ -29,7 +29,8 @@ function Account(props) {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (tabID === 0) {
-            axios.post('http://localhost:5000/user/login', {
+            console.log(user)
+            Axios.post('http://localhost:5000/user/login', {
                 email: user.email,
                 password: user.password
             }) 
@@ -39,14 +40,15 @@ function Account(props) {
                     window.location.reload(false);
                     document.body.style.overflow = 'unset';
                 }, 1000)
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('user-id', res.data.user._id);
+                localStorage.setItem('token', res.data.accessToken);
+                localStorage.setItem('user-id', res.data._id);
             })
             .catch(err => {
-                setArrErr(arrErr=>[...arrErr, err.response.data]);
+                console.log(err.response);
+                setArrErr([err.response.data]);
             })
         } else {
-            axios.post('http://pe.heromc.net:4000/users/register', {
+            Axios.post('http://pe.heromc.net:4000/users/register', {
                 userName: user.registerName,
                 userEmail: user.registerEmail,
                 userPassword: user.registerPassword,
@@ -66,7 +68,7 @@ function Account(props) {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
+        Axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
             headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
         })
         .then(res => {
@@ -160,8 +162,8 @@ function Account(props) {
                     { tabID === 0 &&
                         <div className="search-form login-form fadeToRight">
                             <form className="flex-col" onSubmit={handleOnSubmit}>
-                                <input type="email" placeholder="Email" name="loginEmail" onChange={handleOnChange}/>
-                                <input type="password" placeholder="Password" name="loginPassword" onChange={handleOnChange}/>
+                                <input type="email" placeholder="Email" name="email" onChange={handleOnChange}/>
+                                <input type="password" placeholder="Password" name="password" onChange={handleOnChange}/>
                                 <div className="remember-login flex noselect" 
                                     onClick={() => { 
                                         if (check) {
