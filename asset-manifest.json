@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/KIENTAP/static/css/main.e24df1bd.css",
-    "main.js": "/KIENTAP/static/js/main.0f820b79.js",
+    "main.css": "/KIENTAP/static/css/main.a1a8c694.css",
+    "main.js": "/KIENTAP/static/js/main.3ad528e0.js",
     "static/media/women-dropdown2.jpg": "/KIENTAP/static/media/women-dropdown2.1381f7eb0d8f93ca3d67.jpg",
     "static/media/men-dropdown3.jpg": "/KIENTAP/static/media/men-dropdown3.24c1597116a5cfc4f65b.jpg",
     "static/media/women-dropdown.jpg": "/KIENTAP/static/media/women-dropdown.f5ac364ef757a530216d.jpg",
@@ -20,16 +20,16 @@
     "static/media/b1.jpg": "/KIENTAP/static/media/b1.846305b76acbaa5b9287.jpg",
     "static/media/S3.jpg": "/KIENTAP/static/media/S3.01fe156a5297c35f4f77.jpg",
     "static/media/newsbanner.jpg": "/KIENTAP/static/media/newsbanner.ae4eda15039c51cc7973.jpg",
-    "static/media/slick.svg": "/KIENTAP/static/media/slick.7ba97953187dc2907930.svg",
+    "static/media/slick.svg": "/KIENTAP/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/KIENTAP/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/KIENTAP/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/KIENTAP/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/KIENTAP/index.html",
-    "main.e24df1bd.css.map": "/KIENTAP/static/css/main.e24df1bd.css.map",
-    "main.0f820b79.js.map": "/KIENTAP/static/js/main.0f820b79.js.map"
+    "main.a1a8c694.css.map": "/KIENTAP/static/css/main.a1a8c694.css.map",
+    "main.3ad528e0.js.map": "/KIENTAP/static/js/main.3ad528e0.js.map"
   },
   "entrypoints": [
-    "static/css/main.e24df1bd.css",
-    "static/js/main.0f820b79.js"
+    "static/css/main.a1a8c694.css",
+    "static/js/main.3ad528e0.js"
   ]
 }
