@@ -62,15 +62,14 @@ function Account(props) {
                 }, 1000)
             })
             .catch(err => {
-                // console.log(err.response.data)
-                setArrErr([err.response.data]);
-                // setArrErr(arrErr=>[...arrErr, err.response.data]);
+               
+                setArrErr(arrErr=>[...arrErr, err.response.data]);
             })
         }
     }
 
     useEffect(() => {
-        Axios.get(`http://localhost:5000/users/${localStorage.getItem('user-id')}`, { 
+        Axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
             headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
         })
         .then(res => {
