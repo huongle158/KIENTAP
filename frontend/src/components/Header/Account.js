@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes , faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios'
+import Axios from 'axios'
 import {
     withRouter
 } from 'react-router-dom'
@@ -29,11 +29,13 @@ function Account(props) {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (tabID === 0) {
-            axios.post('http://localhost:5000/user/login', {
-                email: user.email,
-                password: user.password
+            Axios.post('http://localhost:5000/user/login', {
+                
+                email: user.loginEmail,
+                password: user.loginPassword
             }) 
             .then(res => {
+                
                 setArrSuccess(arrSuccess=>[...arrSuccess, "Login success!"])
                 setTimeout(()=> {
                     window.location.reload(false);
@@ -46,7 +48,7 @@ function Account(props) {
                 setArrErr(arrErr=>[...arrErr, err.response.data]);
             })
         } else {
-            axios.post('http://pe.heromc.net:4000/users/register', {
+            Axios.post('http://localhost:5000/user/register', {
                 userName: user.registerName,
                 userEmail: user.registerEmail,
                 userPassword: user.registerPassword,
@@ -60,13 +62,15 @@ function Account(props) {
                 }, 1000)
             })
             .catch(err => {
-                setArrErr(arrErr=>[...arrErr, err.response.data]);
+                // console.log(err.response.data)
+                setArrErr([err.response.data]);
+                // setArrErr(arrErr=>[...arrErr, err.response.data]);
             })
         }
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/user/${localStorage.getItem('user-id')}`, { 
+        Axios.get(`http://localhost:5000/users/${localStorage.getItem('user-id')}`, { 
             headers: {"authorization" : `Bearer ${localStorage.getItem('token')}`}
         })
         .then(res => {
