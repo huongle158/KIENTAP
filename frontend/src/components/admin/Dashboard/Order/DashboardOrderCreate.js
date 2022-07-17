@@ -91,7 +91,7 @@ export default function DashboardOrderCreate(props) {
                 
             }
         )
-        axios.get(``)
+        axios.get(`http://localhost:5000/product/`)
             .then(res => {
                 setProduct(res.data)
             }
@@ -106,7 +106,17 @@ export default function DashboardOrderCreate(props) {
         }
         
     },[user])
-   
+    const timHuyen = (tenTinh)=>{
+        const tamTinh = [...tinh]
+        const virtualHuyen =[]
+        for(let i = 0; i < tamTinh.length; i++){
+        if (tamTinh[i].name == tenTinh){
+                virtualHuyen.push(tamTinh[i].districts)
+        }
+         }
+         setHuyen(virtualHuyen[0])
+         console.log(huyen)
+    }
     return (
         <div className="DashboardProductInfo">
             <div className="create-box"> 
@@ -192,6 +202,7 @@ export default function DashboardOrderCreate(props) {
                                 onChange={(event)=>{
                                     setProvinceId(event.target.selectedIndex)
                                     setOrderProvince(event.target.value)
+                                    timHuyen(event.target.value)
                                     
                                    
                                 }}
@@ -211,7 +222,7 @@ export default function DashboardOrderCreate(props) {
                     <div className="create-box-row flex">
                         <div className="dashboard-left flex">District</div>
                         <div className="dashboard-right">
-                            <select 
+                        <select 
                                 className="input"
                                 value={"orderDistric"}
                                 onChange={(event)=>{
@@ -219,7 +230,14 @@ export default function DashboardOrderCreate(props) {
                                 }}
                             >
                                 <option disabled selected value>select a district</option>
-                             
+                                {huyen.map((item, index) => {    
+                                        return (
+                                            <option
+                                                key={index}
+                                                value={item.name}
+                                            >{item.name}</option>
+                                        )
+                                })}
                             </select>
                         </div>
                     </div>
@@ -278,7 +296,7 @@ export default function DashboardOrderCreate(props) {
                                         <option
                                             key={index}
                                             value={JSON.stringify(item)}
-                                        >Name: {item.productName}, Price: {item.productFinalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</option>
+                                        >Name: {item.productName}, Price: {item.productPrice}</option>
                                     )
                                 })}
                             </select>

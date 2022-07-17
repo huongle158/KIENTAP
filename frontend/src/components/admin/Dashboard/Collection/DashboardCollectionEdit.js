@@ -45,7 +45,7 @@ export default function DashboardCollectionEdit(props) {
         })
         formData.append("productList", JSON.stringify(productList));
         formData.append("collectionName", collectionName);
-        axios.post(`http://pe.heromc.net:4000/collection/update/${collection._id}`, formData, config)
+        axios.post(`http://localhost:5000/collection/update/${collection._id}`, formData, config)
         .then(()=>{
             props.setCloseEditFunc(false);
             props.setToastFunc(true);
@@ -174,7 +174,7 @@ export default function DashboardCollectionEdit(props) {
                                         <option
                                             key={index}
                                             value={JSON.stringify(item)}
-                                        >Name: {item.productName}, Price: {item.productFinalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</option>
+                                        >Name: {item.productName}, Price: {item.productPrice}</option>
                                     )
                                 })}
                             </select>
