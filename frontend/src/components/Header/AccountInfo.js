@@ -41,7 +41,7 @@ function AccountInfo(props) {
          setUserAvt(userInfo.userAvt)
          setUserAddress(userInfo.userAddress) 
          if (userInfo.userTinh !== "") {
-            axios.get(`http://pe.heromc.net:4000/vietnam`)
+            axios.get(`http://localhost:5000/vietnam`)
                .then(res => {
                   setTinh(res.data[0].tinh)
                   setHuyen(res.data[0].huyen)
@@ -55,7 +55,7 @@ function AccountInfo(props) {
             ) 
             setUserTinh(userInfo.userTinh)
          } else {
-            axios.get(`http://pe.heromc.net:4000/vietnam`)
+            axios.get(`http://localhost:5000/vietnam`)
                 .then(res => {
                     setTinh(res.data[0].tinh)
                     setHuyen(res.data[0].huyen) 

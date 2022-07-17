@@ -35,6 +35,7 @@ function Account(props) {
                 password: user.password
             }) 
             .then(res => {
+                
                 setArrSuccess(arrSuccess=>[...arrSuccess, "Login success!"])
                 setTimeout(()=> {
                     window.location.reload(false);
@@ -48,7 +49,7 @@ function Account(props) {
                 setArrErr([err.response.data]);
             })
         } else {
-            Axios.post('http://pe.heromc.net:4000/users/register', {
+            Axios.post('http://localhost:5000/user/register', {
                 userName: user.registerName,
                 userEmail: user.registerEmail,
                 userPassword: user.registerPassword,
@@ -62,6 +63,7 @@ function Account(props) {
                 }, 1000)
             })
             .catch(err => {
+               
                 setArrErr(arrErr=>[...arrErr, err.response.data]);
             })
         }

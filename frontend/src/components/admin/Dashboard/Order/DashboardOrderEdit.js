@@ -31,7 +31,7 @@ export default function DashboardOrderCreate(props) {
             axios.get(`https://provinces.open-api.vn/api/?depth=2`)
                 .then(res => {
                     setTinh(res.data)
-                    setHuyen(res.data)
+                    
                     if (order) {
                         setOrderName(order.orderName)
                         setOrderEmail(order.orderEmail)
@@ -101,7 +101,17 @@ export default function DashboardOrderCreate(props) {
             }
         )
     },[order,product])
-
+    const timHuyen = (tenTinh)=>{
+        const tamTinh = [...tinh]
+        const virtualHuyen =[]
+        for(let i = 0; i < tamTinh.length; i++){
+        if (tamTinh[i].name == tenTinh){
+                virtualHuyen.push(tamTinh[i].districts)
+        }
+         }
+         setHuyen(virtualHuyen[0])
+         console.log(huyen)
+    }
     const onSubmit = (event) => {
         event.preventDefault()
         var listOrder = []
@@ -214,10 +224,11 @@ export default function DashboardOrderCreate(props) {
                         <div className="dashboard-right">
                         <select 
                                 className="input"
-                                value={orderProvince}
+                                value={orderProvince || ""}
                                 onChange={(event)=>{
                                     setProvinceId(event.target.selectedIndex)
                                     setOrderProvince(event.target.value)
+                                    timHuyen(event.target.value)
                                     
                                    
                                 }}
@@ -237,14 +248,25 @@ export default function DashboardOrderCreate(props) {
                     <div className="create-box-row flex">
                         <div className="dashboard-left flex">District</div>
                         <div className="dashboard-right">
-                        <input 
-                                type="text" name="phone" 
+                        <select 
+                                className="input"
                                 value={orderDistric ||""}
                                 onChange={(event)=>{
                                     setOrderDistric(event.target.value)
-                                }} required
-                                ></input>
+                                }}
+                            >
+                                <option disabled selected value>select a district</option>
+                                {huyen.map((item, index) => {    
+                                        return (
+                                            <option
+                                                key={index}
+                                                value={item.name}
+                                            >{item.name}</option>
+                                        )
+                                })}
+                            </select>
                         </div>
+                        
                     </div>
             
                     <div className="create-box-row flex">

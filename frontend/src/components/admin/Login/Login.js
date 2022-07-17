@@ -28,7 +28,6 @@ function Login(props) {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        // Axios.post('http://pe.heromc.net:4000/users/login', {
         Axios.post('http://localhost:5000/user/login', {
             email: email,
             password: password

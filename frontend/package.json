@@ -2,6 +2,7 @@
   "name": "shop-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://huongle158.github.io/KIENTAP/",
   "dependencies": {
     "@emotion/css": "^11.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -23,6 +24,7 @@
     "draft-js-import-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
     "emotion": "^11.0.0",
+    "gh-pages": "^4.0.0",
     "html-react-parser": "^0.14.1",
     "immutable": "^4.1.0",
     "jquery": "^3.5.1",
@@ -37,6 +39,7 @@
     "react-d3-speedometer": "^0.14.1",
     "react-div-100vh": "^0.5.6",
     "react-dom": "^16.13.1",
+    "react-draft-wysiwyg": "^1.14.5",
     "react-modal": "^3.12.1",
     "react-owl-carousel": "^2.3.1",
     "react-rating-stars-component": "^2.2.0",
@@ -46,14 +49,15 @@
     "react-toastify": "^6.0.9",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.1",
-    "swiper": "^6.3.1",
-    "react-draft-wysiwyg": "^1.14.5"
+    "swiper": "^6.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
