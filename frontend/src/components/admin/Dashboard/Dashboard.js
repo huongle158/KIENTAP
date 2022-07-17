@@ -18,29 +18,29 @@ function Dashboard(props) {
             icon: faHome
         },
         {
-            id: "3",
-            name: "Orders",
+            id: "2",
+            name: "Collection",
             icon: faFileInvoice
         },
         {
-            id: "4",
-            name: "Products",
+            id: "3",
+            name: "Order",
             icon: faTshirt
         },
       
         {
-            id: "6",
-            name: "Users",
+            id: "4",
+            name: "Products",
             icon: faUser
-        },
-        {
-            id: "2",
-            name: "Collection",
-            icon: faShoppingBag
         },
         {
             id: "5",
             name: "Subscribers",
+            icon: faShoppingBag
+        },
+        {
+            id: "6",
+            name: "Users",
             icon: faEnvelope
         },
     ]
