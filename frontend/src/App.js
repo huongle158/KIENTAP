@@ -51,7 +51,7 @@ function App(props) {
         />
       } */}
         {/* { loading === false && */}
-          <Router basename="/KIENTAP">
+          <HashRouter basename="/KIENTAP">
             <div className="App">
               <Toast />
               {/* <Route path="/KIENTAP" exact component={Home}></Route> */}
@@ -70,7 +70,7 @@ function App(props) {
               <Route path="/checkout" exact component={Checkout}></Route>
             </div>
             <OpenChatBtn />
-          </Router>
+          </HashRouter>
         {/* } */}
         {/* </ChatProvider> */}
       </CartProvider>
