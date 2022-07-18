@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/kien-tap/static/css/main.6ce56f0c.css",
-    "main.js": "/kien-tap/static/js/main.cdf32707.js",
+    "main.css": "/kien-tap/static/css/main.f3aaa664.css",
+    "main.js": "/kien-tap/static/js/main.0ed1cf33.js",
     "static/media/women-dropdown2.jpg": "/kien-tap/static/media/women-dropdown2.1381f7eb0d8f93ca3d67.jpg",
     "static/media/men-dropdown3.jpg": "/kien-tap/static/media/men-dropdown3.24c1597116a5cfc4f65b.jpg",
     "static/media/women-dropdown.jpg": "/kien-tap/static/media/women-dropdown.f5ac364ef757a530216d.jpg",
@@ -25,11 +25,11 @@
     "static/media/slick.ttf": "/kien-tap/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/kien-tap/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/kien-tap/index.html",
-    "main.6ce56f0c.css.map": "/kien-tap/static/css/main.6ce56f0c.css.map",
-    "main.cdf32707.js.map": "/kien-tap/static/js/main.cdf32707.js.map"
+    "main.f3aaa664.css.map": "/kien-tap/static/css/main.f3aaa664.css.map",
+    "main.0ed1cf33.js.map": "/kien-tap/static/js/main.0ed1cf33.js.map"
   },
   "entrypoints": [
-    "static/css/main.6ce56f0c.css",
-    "static/js/main.cdf32707.js"
+    "static/css/main.f3aaa664.css",
+    "static/js/main.0ed1cf33.js"
   ]
 }
