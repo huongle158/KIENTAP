@@ -67,7 +67,7 @@ export default function DashboardCollectionEdit(props) {
             <div className="create-box"> 
                 <div className="create-box-title flex">
                     <div className="create-box-title-text">
-                        Order infomation
+                       Collection infomation
                     </div>
                     <div  
                         className="create-box-title-close flex-center"

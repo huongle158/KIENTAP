@@ -1008,8 +1008,8 @@ select {
 }
 
 .DashboardProductInfo {
-    width: 80%;
-    left: 20%;
+    width: calc(100% - 260px);
+    left: 260px;
     height: 100vh;
     background-color: rgba(1, 1, 1, 0.7);
     position: fixed;

@@ -12,9 +12,10 @@ import AccountInfo from './AccountInfo'
 import useValidator from '../../hooks/useValidator'
 
 
-function Account(props) {
-    const {setUserInfoFunc} = useContext(UserContext);
+import isEmpty from "validator/lib/isEmpty"
 
+function Account(props) {
+    const { setUserInfoFunc } = useContext(UserContext);
 
     const [check, setCheck] = useState(false);
     const [tabID, setTabID] = useState(0);
@@ -22,6 +23,19 @@ function Account(props) {
     const [arrErr, setArrErr] = useState([]);
     const [user, setUser] = useState({});
     const [login, setLogin] = useState(false);
+    const [validationMsg, setValidationMsg] = useState('');
+    // const validateAll = () => {
+    //     const msg = {}
+    //     if (isEmpty(loginEmail)) {
+    //         msg.email = "Please input your email "
+    //     }
+    //     else if (isEmpty(loginPassword)) {
+    //         msg.password = "Please input your password "
+    //     }
+    //     setValidationMsg(msg)
+    //     if (Object.keys(msg).length > 0) return false
+    //     return true
+    // }
 
     const handleOnChange = (event) => {
         setUser({ ...user, [event.target.name]: event.target.value })
@@ -30,6 +44,8 @@ function Account(props) {
     const [validator, showValidationMessage] = useValidator()
 
     const handleOnSubmit = (event) => {
+        // const isValid = validateAll()
+
         event.preventDefault();
         if (validator.allValid()) {
             console.log("form submitted");
@@ -118,10 +134,12 @@ function Account(props) {
                 </div >
 
                 {login === true &&
-                    <AccountInfo/>
+
+                    <AccountInfo />
                 }
 
                 {login === false &&
+
                     <div className={props.accountOpen === false ? '' : 'fadeIn'}>
                         <div
                             className='search-tab login-tab flex'>
@@ -239,9 +257,52 @@ function Account(props) {
                             </div>
                         }
                     </div>
+                    //             {tabID === 0 &&
+                    //             <div className="search-form login-form fadeToRight">
+                    //                 <form className="flex-col" onSubmit={handleOnSubmit}>
+                    //                     <input type="email" placeholder="Email" name="loginEmail" onChange={handleOnChange} />
+                    //                     <p className="text-red-400 text-xs italic">{validationMsg.email}</p>
+                    //                     <input type="password" placeholder="Password" name="loginPassword" onChange={handleOnChange} />
+                    //                     <p className="text-red-400 text-xs italic">{validationMsg.password}</p>
+                    //                     <div className="remember-login flex noselect"
+                    //                         onClick={() => {
+                    //                             if (check) {
+                    //                                 setCheck(false)
+                    //                             } else {
+                    //                                 setCheck(true)
+                    //                             }
+                    //                         }}
+                    //                     >
+                    //                         <div className="check-box"></div>
+                    //                         {check &&
+                    //                             <div className="check-box-active flex-center" onClick={() => setCheck(false)}>
+                    //                                 <FontAwesomeIcon className="check-box-active" icon={faCheck}></FontAwesomeIcon>
+                    //                             </div>
+                    //                         }
+                    //                         <p>Remember me</p>
+                    //                     </div>
+                    //                     <button type="submit" onClick={handleOnSubmit} className="btn">LOGIN</button>
+                    //                     <label>LOST YOUR PASSWORD?</label>
+                    //                 </form>
+                    //             </div>
+                    //         }
+                    //         }
+                    //         {tabID === 1 &&
+                    //             <div className="search-form login-form fadeToLeft">
+                    //                 <form className="flex-col" onSubmit={handleOnSubmit}>
+                    //                     <input type="text" placeholder="Name" name="registerName" onChange={handleOnChange} />
+                    //                     <input type="email" placeholder="Email" name="registerEmail" onChange={handleOnChange} />
+                    //                     <p className="text-red-400 text-xs italic">{validationMsg.email}</p>
+                    //                     <input type="password" placeholder="Password" name="registerPassword" onChange={handleOnChange} />
+                    //                     <p className="text-red-400 text-xs italic">{validationMsg.password}</p>
+                    //                     <button className="btn">REGISTER</button>
+                    //                 </form>
+                    //             </div>
+                    //         }
+                    //     </div>
                 }
-            </div>
-        </div>
+            </div>/
+        </div >
     )
 }
 
