@@ -1,9 +1,16 @@
 # KIENTAP
-Dự án kiến tập nhóm MERN STACK
+Project kiến tập Ecommerce Shop
 ---------------------------------------
-Công nghệ sử dụng: ReactJS, NodeJS, MongoDB,...
+Công nghệ sử dụng: ReactJS, NodeJS, MongoDB, ExpressJS
 ---------------------------------------
-Route
+Install and Run
+---------------------------------------
+cd backend & npm install & npm start
 
-Client: "/"
-Admin: "/admin"
+cd frontend & npm install & npm start
+
+Route
+---------------------------------------
+Client: '/'
+
+Admin: '/admin'
