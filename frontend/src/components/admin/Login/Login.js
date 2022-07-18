@@ -6,9 +6,11 @@ import Axios from 'axios'
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { withRouter } from 'react-router-dom'
-import Div100vh from 'react-div-100vh';
+import useValidator from '../../../hooks/useValidator'
+
 
 function Login(props) {
+    const [validator, showValidationMessage] = useValidator()
 
     const [arrSuccess, setArrSuccess] = useState([]);
     const [arrErr, setArrErr] = useState([]);
@@ -28,29 +30,35 @@ function Login(props) {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        Axios.post('http://localhost:5000/user/login', {
-            email: email,
-            password: password
-        })
-            .then(res => {
-                if (res.data.admin){
-                    setArrSuccess(["Login success!"])
-                    setArrErr([]);
-                    localStorage.setItem('token', res.data.accessToken);
-                    localStorage.setItem('user-id', res.data._id);
-                    props.history.push('/admin/dashboard')
-                }
-                else{
-                    setArrSuccess([]);
-                    setArrErr(["You do not have Administrator access!"]);
-                }
-                
+        if (validator.allValid()) {
+            console.log("form submitted");
+            Axios.post('http://localhost:5000/user/login', {
+                email: email,
+                password: password
             })
-            .catch(err => {
-                console.log(err.response.data)
-                setArrErr([err.response.data]);
-                setArrSuccess([])
-            })
+                .then(res => {
+                    if (res.data.admin) {
+                        setArrSuccess(["Login success!"])
+                        setArrErr([]);
+                        localStorage.setItem('token', res.data.accessToken);
+                        localStorage.setItem('user-id', res.data._id);
+                        props.history.push('/admin/dashboard')
+                    }
+                    else {
+                        setArrSuccess([]);
+                        setArrErr(["You do not have Administrator access!"]);
+                    }
+
+                })
+                .catch(err => {
+                    console.log(err.response.data)
+                    setArrErr([err.response.data]);
+                    setArrSuccess([])
+                })
+        } else {
+            // validator.showMessages();
+            showValidationMessage(true);
+        }
     }
 
     let uniqueErr, uniqueSuccess = [];
@@ -81,11 +89,11 @@ function Login(props) {
                             {uniqueErr &&
                                 <div style={{ width: '100%', padding: '0' }}>
                                     {
-                                        
+
                                         uniqueErr.map((item, index) => {
                                             return (
                                                 <div key={index} style={{ color: 'red', fontStyle: 'italic' }}>
-                                                    <FontAwesomeIcon icon={faTimes} style={{ marginRight: '10px'}} />
+                                                    <FontAwesomeIcon icon={faTimes} style={{ marginRight: '10px' }} />
                                                     {item}
                                                 </div>
                                             )
@@ -117,6 +125,13 @@ function Login(props) {
                                     setEmail(event.target.value)
                                 }}
                             />
+                            {validator.message('email', email, 'required|email',
+                                {
+                                    messages: {
+                                        email: 'Email is invalid',
+                                        required: "Email is required"
+                                    }
+                                })}
                             <input
                                 type="password"
                                 placeholder="Password"
@@ -125,6 +140,11 @@ function Login(props) {
                                     setPassword(event.target.value)
                                 }}
                             />
+                            {validator.message('password', password, 'required', {
+                                messages: {
+                                    required: "Password is required"
+                                }
+                            })}
                             <button type="submit" className="btn">LOGIN</button>
                         </form>
                     </div>

@@ -19,57 +19,57 @@ function AccountInfo(props) {
    } = useContext(UserContext);
 
    const [tabId, setTabId] = useState(1);
-   const [userName, setUserName] = useState("")
-   const [userEmail, setUserEmail] = useState("")
-   const [userPassword, setUserPassword] = useState("")
-   const [userPhone, setUserPhone] = useState("")
-   const [userAvt, setUserAvt] = useState("")
+   const [username, setUserName] = useState("")
+   const [email, setUserEmail] = useState("")
+   const [password, setUserPassword] = useState("")
+   const [phone, setUserPhone] = useState("")
+   // const [avt, setUserAvt] = useState("")
    const [file, setFile] = useState("")
    const [provinceId, setProvinceId] = useState("")
    const [userTinh, setUserTinh] = useState(null)
    const [userHuyen, setUserHuyen] = useState(null)
-   const [userAddress, setUserAddress] = useState(null)
+   const [address, setUserAddress] = useState(null)
    const [toast, setToast] = useState(false)
    const [orderList, setOrderList] = useState([])
    
 
    useEffect(()=>{  
       if (userInfo) {
-         setUserName(userInfo.userName)
-         setUserEmail(userInfo.userEmail)
-         setUserPhone(userInfo.userPhone)
-         setUserAvt(userInfo.userAvt)
-         setUserAddress(userInfo.userAddress) 
-         if (userInfo.userTinh !== "") {
-            axios.get(`http://localhost:5000/vietnam`)
-               .then(res => {
-                  setTinh(res.data[0].tinh)
-                  setHuyen(res.data[0].huyen)
-                  res.data[0].tinh.filter((item)=>{ 
-                     if (userInfo.userTinh === item.name) {
-                        setProvinceId(item.id)
-                     }
-                     return null
-                  })
-               }
-            ) 
-            setUserTinh(userInfo.userTinh)
-         } else {
-            axios.get(`http://localhost:5000/vietnam`)
-                .then(res => {
-                    setTinh(res.data[0].tinh)
-                    setHuyen(res.data[0].huyen) 
-                }
-            )   
-         }
-         if (userInfo.userHuyen !== "") {
-               setUserHuyen(userInfo.userHuyen)
-         }
+         setUserName(userInfo.username)
+         setUserEmail(userInfo.email)
+         setUserPhone(userInfo.phone)
+         // setUserAvt(userInfo.avt)
+         setUserAddress(userInfo.address) 
+         // if (userInfo.tinh !== "") {
+         //    axios.get(`http://localhost:5000/vietnam`)
+         //       .then(res => {
+         //          setTinh(res.data[0].tinh)
+         //          setHuyen(res.data[0].huyen)
+         //          res.data[0].tinh.filter((item)=>{ 
+         //             if (userInfo.tinh === item.name) {
+         //                setProvinceId(item.id)
+         //             }
+         //             return null
+         //          })
+         //       }
+         //    ) 
+         //    setUserTinh(userInfo.tinh)
+         // } else {
+         //    axios.get(`http://localhost:5000/vietnam`)
+         //        .then(res => {
+         //            setTinh(res.data[0].tinh)
+         //            setHuyen(res.data[0].huyen) 
+         //        }
+         //    )   
+         // }
+         // if (userInfo.huyen !== "") {
+         //       setUserHuyen(userInfo.huyen)
+         // }
          axios.get(`http://localhost:5000/order`)
             .then(res => {
                const orderList2 = []
                for (let i in res.data) {
-                  if (res.data[i].orderEmail === userInfo.userEmail) {
+                  if (res.data[i].orderEmail === userInfo.ymail) {
                      orderList2.push(res.data[i])
                   }
                }
@@ -87,22 +87,22 @@ function AccountInfo(props) {
             }
       }
       const formData = new FormData();
-      const imageArr = Array.from(file);
-      imageArr.forEach(image => {
-            formData.append('userAvt', image);
-      })
-      formData.append("userName", userName);
-      formData.append("userEmail", userEmail);
-      formData.append("userPassword", userPassword);
-      formData.append("userPhone", userPhone);
-      formData.append("userTinh", userTinh);
-      formData.append("userHuyen", userHuyen);
-      formData.append("userAddress", userAddress);
+      // const imageArr = Array.from(file);
+      // imageArr.forEach(image => {
+      //       formData.append('avt', image);
+      // })
+      formData.append("username", username);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("phone", phone);
+      formData.append("tinh", tinh);
+      formData.append("huyen", huyen);
+      formData.append("address", address);
       localStorage.removeItem('token')
       axios.post(`http://localhost:5000/user/update/${userInfo._id}`, formData, config)
             .then(res => {
                setUserInfoFunc(res.data.user);
-               localStorage.setItem('token', res.data.token);
+               localStorage.setItem('token', res.data.accessToken);
             })
             .catch(err => {
                console.log(err.response.data);
@@ -124,16 +124,16 @@ function AccountInfo(props) {
                </div>
                <div className="accountinfo-menu">
                   <div className="accountinfo-avt flex">
-                        <img 
+                        {/* <img 
                            style={{borderRadius: '50%'}}
                            className="accountinfo-avt-img"
-                           src={userInfo.userAvt} 
+                           src={userInfo.avt} 
                            alt=""
                            width="48px"
                            height="48px"
-                        ></img>
+                        ></img> */}
                         <div className="accountinfo-avt-name">
-                           {userInfo.userName}
+                           {userInfo.username}
                         </div>
                   </div>
                   <div className="accountinfo-menu-list">
@@ -170,7 +170,7 @@ function AccountInfo(props) {
                               <div className="dashboard-right create-box-right">
                                  <input 
                                     type="text" name="title"  
-                                    value={userName}
+                                    value={username}
                                     onChange={(event)=>{
                                        setUserName(event.target.value)
                                     }} 
@@ -183,7 +183,7 @@ function AccountInfo(props) {
                                  <input 
                                     onChange={(event) => {
                                        const files = event.target.files;
-                                       setUserAvt(URL.createObjectURL(files[0]))
+                                       // setUserAvt(URL.createObjectURL(files[0]))
                                        const fileArr = Array.prototype.slice.call(files)
                                        fileArr.forEach(item=>{
                                           setFile(file=>[...file, item])
@@ -196,13 +196,13 @@ function AccountInfo(props) {
                                     style={{height: '30px'}}
                                  ></input>
                                  <div className="flex" style={{ overflowY: 'hidden', flexWrap:'wrap'}}> 
-                                    <img  
+                                    {/* <img  
                                        className="accountinfo-editavt-img"
-                                       src={userAvt} 
+                                       src={avt} 
                                        alt=""
                                        width="80px"
                                        height="80px"
-                                    ></img>
+                                    ></img> */}
                                  </div>
                               </div>
                            </div>
@@ -211,7 +211,7 @@ function AccountInfo(props) {
                               <div className="dashboard-right create-box-right">
                                  <input 
                                     type="text" 
-                                    value={userEmail}
+                                    value={email}
                                     onChange={(event)=>{
                                        setUserEmail(event.target.value)
                                     }}
@@ -223,7 +223,7 @@ function AccountInfo(props) {
                               <div className="dashboard-right create-box-right">
                                  <input 
                                     type="text" 
-                                    value={userPhone}
+                                    value={phone}
                                     onChange={(event)=>{
                                        setUserPhone(event.target.value)
                                     }}
@@ -284,8 +284,8 @@ function AccountInfo(props) {
                                  <input 
                                     type="text"
                                     className="input"
-                                    name="phone" 
-                                    value={userAddress || ''}
+                                    name="address" 
+                                    value={address || ''}
                                     onChange={(event)=>{
                                        setUserAddress(event.target.value)
                                     }} 
@@ -298,8 +298,8 @@ function AccountInfo(props) {
                                  <input 
                                        type="password"
                                        className="input"
-                                       name="email" 
-                                       value={userPassword}
+                                       name="password" 
+                                       value={password}
                                        onChange={(event)=>{
                                           setUserPassword(event.target.value)
                                        }} 

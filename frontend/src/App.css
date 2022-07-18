@@ -12,6 +12,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.srv-validation-message{
+  font-size: 11px;
+  font-style: italic;
+  color: red !important;
+}
+
 .no-p {
   padding: 0 !important;
 }
