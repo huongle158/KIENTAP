@@ -51,7 +51,7 @@ function App(props) {
         />
       } */}
         {/* { loading === false && */}
-          <Router basename="/kien-tap">
+          <Router basename="/KIENTAP">
             <div className="App">
               <Toast />
               {/* <Route path="/KIENTAP" exact component={Home}></Route> */}

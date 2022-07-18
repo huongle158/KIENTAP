@@ -2,7 +2,7 @@
   "name": "shop-project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://huongle158.github.io/kien-tap/",
+  "homepage": "https://huongle158.github.io/KIENTAP/",
   "dependencies": {
     "@emotion/css": "^11.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
